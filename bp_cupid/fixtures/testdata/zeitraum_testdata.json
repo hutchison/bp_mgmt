@@ -1,0 +1,83 @@
+[
+{
+  "pk": 1,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-01-06",
+    "block": 1,
+    "ende": "2014-01-16"
+  }
+},
+{
+  "pk": 2,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-01-13",
+    "block": 1,
+    "ende": "2014-01-23"
+  }
+},
+{
+  "pk": 3,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-01-27",
+    "block": 2,
+    "ende": "2014-02-06"
+  }
+},
+{
+  "pk": 4,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-02-03",
+    "block": 2,
+    "ende": "2014-02-13"
+  }
+},
+{
+  "pk": 5,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-02-17",
+    "block": 3,
+    "ende": "2014-02-27"
+  }
+},
+{
+  "pk": 6,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-02-24",
+    "block": 3,
+    "ende": "2014-03-06"
+  }
+},
+{
+  "pk": 7,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-03-10",
+    "block": 4,
+    "ende": "2014-03-20"
+  }
+},
+{
+  "pk": 8,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-03-17",
+    "block": 4,
+    "ende": "2014-03-27"
+  }
+},
+{
+  "pk": 9,
+  "model": "bp_cupid.zeitraum",
+  "fields": {
+    "anfang": "2014-03-24",
+    "block": 4,
+    "ende": "2014-04-03"
+  }
+}
+]

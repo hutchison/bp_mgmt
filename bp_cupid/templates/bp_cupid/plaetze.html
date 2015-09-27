@@ -1,0 +1,74 @@
+{% extends "bp_cupid/base.html" %}
+{% load l10n %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(window).load(function(){
+  $('.popoverData').popover();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  {% if anzahl_plaetze %}
+  <div class="row">
+    <div class="col-lg-offset-2 col-lg-8">
+      <div class="progress">
+        {% localize off %}
+        <div class="progress-bar" style="width: {{ rel_automatische }}%;">{{ automatische_plaetze }} automatische</div>
+        <div class="progress-bar progress-bar-success" style="width: {{ rel_manuelle }}%;">{{ manuelle_plaetze }} manuelle</div>
+        <div class="progress-bar progress-bar-warning" style="width: {{ rel_externe }}%;">{{ externe }} externe</div>
+        {% endlocalize %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-md-12">
+      {% if plaetze %}
+      <div class="table-reponsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-lg-1">Name</th>
+              <th class="col-lg-1">Vorname</th>
+              <th class="col-lg-1">Matrikelnummer</th>
+              <th class="col-lg-1">Praxis</th>
+              <th class="col-lg-1">Adresse</th>
+              <th class="col-lg-1">Beginn</th>
+              <th class="col-lg-1">Ende</th>
+              <th class="col-lg-1">Gewicht</th>
+              <th class="col-lg-2">Gewichtsberechnung</th>
+              <th class="col-lg-2">Kommentar</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for p in plaetze %}
+            {% if p.manuell %}
+            <tr class="bg-success">
+            {% else %}
+            <tr class="bg-info">
+            {% endif %}
+              <td>{{ p.student.name }}</td>
+              <td>{{ p.student.vorname }}</td>
+              <td>{{ p.student.mat_nr }}</td>
+              <td>{{ p.praxis.vorname }} {{ p.praxis.name }}</td>
+              <td>{{ p.praxis.plz }} {{ p.praxis.ort }}</td>
+              <td>{{ p.zeitraum.anfang }}</td>
+              <td>{{ p.zeitraum.ende }}</td>
+              <td>{{ p.gewicht.wert }}</td>
+              <td>{{ p.gewicht.umgebrochener_kommentar|safe }}</td>
+              <td>{{ p.kommentar }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p>Bisher keine Plätze vorhanden.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

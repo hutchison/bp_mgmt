@@ -1,0 +1,42 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-6">
+      {% if commits %}
+      <table class="table">
+        <caption>die letzten 15 <abbr title="eingespielte Änderungen an BP Cupid">Commits</abbr></caption>
+        <tbody>
+        {% for commit in commits %}
+          <tr>
+            <td>{{ commit.date }} Uhr</td>
+            <td>{{ commit.summary }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>
+        Eigentlich sollten hier die letzten 15 Commits angezeigt werden, aber anscheinend ist <code>settings.GIT_DIR</code> nicht richtig konfiguriert.
+      </p>
+      {% endif %}
+    </div>
+    {% if user.is_authenticated and user.is_staff %}
+    <div class="col-lg-6">
+      <table class="table">
+        <caption>die letzten 15 Aktivitäten</caption>
+        <tbody>
+        {% for action in action_stream %}
+          <tr>
+            <td>{{ action.timestamp }} Uhr</td>
+            <td>{{ action.actor.get_full_name }} {{ action.verb }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

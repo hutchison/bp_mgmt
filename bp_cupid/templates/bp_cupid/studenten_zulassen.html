@@ -1,0 +1,61 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+      <form action="{% url 'bp_cupid:studenten_zulassen' %}" method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <div class="form-group">
+          <p>
+            Hier erzeugen wir auf einen Schlag viele
+            <a href="{% url 'admin:bp_cupid_student_changelist' %}" target="_blank">Studenten</a>,
+            die dann für das Blockpraktikum zugelassen sind.
+            Trage einfach in das untere Textfeld pro Zeile eine Matrikelnummer ein.
+            Bitte achte darauf, dass keine überflüssigen Leerzeichen dabei sind.
+            Ein Student kann dabei nicht doppelt angelegt werden.
+            Falls ein Student schon existiert, wird die Matrikelnummer ignoriert.
+          </p>
+          <label for="matrikelnummern">Eine Matrikelnummer pro Zeile:</label>
+          <textarea class="form-control" name="matrikelnummern" id="matrikelnummern" rows="20"></textarea>
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Speichern</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <p>
+        Folgende Studenten sind für den Verwaltungszeitraum {{ akt_verw_zeitraum }} zugelassen:
+      </p>
+      <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Matrikelnummer</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for s in studenten %}
+        <tr>
+          <td>{{ s.vorname }} {{ s.name }}</td>
+          <td>{{ s.mat_nr }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td>Bisher keine.</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+      BP
+      {% if user.is_authenticated and user.is_staff %}
+      Cupid
+      {% else %}
+      Setup
+      {% endif %}
+    </title>
+
+    {% load staticfiles %}
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'bp_cupid/css/bootstrap.min.css' %}">
+    <!-- my custom stylesheets -->
+    <link rel="stylesheet" href="{% static 'bp_cupid/css/custom.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'bp_cupid/css/font-awesome.min.css' %}">
+    <!-- Font 'Acme' für den Brand -->
+    <link href='//fonts.googleapis.com/css?family=Acme' rel='stylesheet' type='text/css'>
+    {% block stylesheets %}{% endblock stylesheets %}
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% load flatpages %}
+    {% get_flatpages as flatpages %}
+
+    <script src="{% static 'bp_cupid/js/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'bp_cupid/js/bootstrap.min.js' %}"></script>
+    {% block javascript %}{% endblock javascript %}
+  </head>
+  <body>
+    <nav class="navbar navbar-default" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'bp_cupid:index' %}" style="font-family: 'Acme';">
+            BP
+            {% if user.is_authenticated and user.is_staff %}
+            Cupid
+            {% else %}
+            Setup
+            {% endif %}
+          </a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          {% if user.is_authenticated and user.is_staff %}
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Übersicht <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'bp_cupid:status' %}">Status</a></li>
+                <li><a href="{% url 'bp_cupid:studenten' %}">Studenten</a></li>
+                <li><a href="{% url 'bp_cupid:praxen' %}">Praxen</a></li>
+                <li><a href="{% url 'bp_cupid:plaetze' %}">Plätze</a></li>
+                <li><a href="{% url 'bp_cupid:bloecke' %}">Blöcke</a></li>
+                <li><a href="{% url 'bp_cupid:platzuebersicht' %}">Platzübersicht</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Aktionen <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="{% url 'bp_cupid:studenten_zulassen' %}">Studenten zulassen</a></li>
+                <li><a href="{% url 'bp_cupid:gewichte' %}">Gewichte berechnen</a></li>
+                <li><a href="{% url 'bp_cupid:verteilen' %}">Studenten verteilen</a></li>
+                <li><a href="{% url 'bp_cupid:email' %}">E-Mails versenden</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Informationen <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                {% for page in flatpages %}
+                <li><a href="/info{{ page.url }}">{{ page.title }}</a></li>
+                {% empty %}
+                <li><a href="{% url 'admin:flatpages_flatpage_add' %}" target="_blank">Bisher keine Seiten verfügbar.</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+            <li><a target="_blank" href="{% url 'admin:index' %}">Adminbereich</a></li>
+            {% block nav %}{% endblock nav %}
+          </ul>
+          {% else %}
+          {% if user.is_authenticated and flatpages %}
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                Informationen <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" role="menu">
+                {% for page in flatpages %}
+                <li><a href="/info{{ page.url }}">{{ page.title }}</a></li>
+                {% endfor %}
+              </ul>
+            </li>
+          </ul>
+          {% endif %}
+          {% endif %}
+          <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+            {% if user.is_staff %}
+            <li><p class="navbar-text">{{ user.mitarbeiter.akt_verw_zeitraum }}</p></li>
+            {% endif %}
+            <li><a id="logout" href="{% url 'logout' %}?next=/">{{ user.username }} <small><i class="fa fa-power-off"></i></small></a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">Login</a></li>
+          {% endif %}
+          </ul>
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    {% block content %}{% endblock content %}
+  </body>
+</html>

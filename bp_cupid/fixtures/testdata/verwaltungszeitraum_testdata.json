@@ -1,0 +1,11 @@
+[
+{
+  "pk": 1,
+  "model": "bp_cupid.verwaltungszeitraum",
+  "fields": {
+    "name": "Testverwaltungszeitraum",
+    "ende": "2014-01-01",
+    "anfang": "2014-12-31"
+  }
+}
+]

@@ -1,0 +1,109 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(window).load(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+    html: 'true'
+  });
+});
+</script>
+{% endblock %}
+
+{% block nav %}
+<li>
+  <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" data-trigger="focus"
+    data-content="<p>Hier werden alle Praxen und die dazugehörigen Gewichte aufgelistet. Die Sortierung erfolgt vom größten zum kleinsten Gewicht.</p>
+    <p>Eine markierte Zeile bedeutet, dass der Student bei dieser Praxis einen Platz abbekommen hat. Eine grüne Zeile ist ein manuell vergebener Platz; bei blau wurde der Platz automatisch vergeben.</p>">
+    <i class="fa fa-question-circle"></i>
+  </a>
+</li>
+{% endblock nav %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <h3>Gewichte von {{ student.vorname }} {{ student.name }} <small>{{ student.mat_nr }}</small></h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="col-md-4 col-lg-4">Praxis</th>
+            <th>Gewicht</th>
+            <th>Berechnung</th>
+            <th>noch freie Zeiträume</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for g in gewichte %}
+        {% if platz.praxis == g.praxis %}
+          {% if platz.manuell %}
+          <tr class="bg-success">
+          {% else %}
+          <tr class="bg-info">
+          {% endif %}
+        {% else %}
+        <tr>
+        {% endif %}
+        <td><a href="{% url 'bp_cupid:praxis' g.praxis.id %}">{{ g.praxis.anrede }} {{ g.praxis.vorname }} {{ g.praxis.name }}</a><br />
+          {{ g.praxis.plz }} {{ g.praxis.ort }}
+        {% if platz.praxis == g.praxis %}
+        <div style="margin-top: 10px;">
+          <span class="label label-default">{{ platz.zeitraum.anfang|date:"j. F Y" }} bis {{ platz.zeitraum.ende|date:"j. F Y" }}</span>
+          {% if platz.kommentar %}
+          <p style="margin-top: 1em;">{{ platz.kommentar }}</p>
+          {% endif %}
+        </div>
+        {% endif %}
+        </td>
+        <td>{{ g.wert }}</td>
+        <td>{{ g.umgebrochener_kommentar|safe }}</td>
+        <td>
+          {% if g.praxis.freie_zeitraeume.exists %}
+          <div class="pull-right">
+          <table class="table table-condensed table-borderless">
+            {% for z in g.praxis.freie_zeitraeume.all %}
+            {% if z in aktuelle_zeitraeume %}
+              {% if platz.praxis == g.praxis %}
+                {% if platz.manuell %}
+                <tr class="bg-success">
+                {% else %}
+                <tr class="bg-info">
+                {% endif %}
+              {% else %}
+              <tr>
+              {% endif %}
+                <td class="text-right">{{ z.anfang|date:"j. F Y" }}</td>
+                <td>–</td>
+                <td>{{ z.ende|date:"j. F Y" }}</td>
+                {% if platz %}
+                <td>
+                  <a href="{% url 'admin:bp_cupid_platz_change' student.id %}?praxis={{ g.praxis.id }}&zeitraum={{ z.id }}&manuell=True"
+                    target="_blank" class="btn btn-danger btn-xs"
+                    >Platz löschen und neu vergeben</a>
+                </td>
+                {% else %}
+                <td>
+                  <a href="{% url 'admin:bp_cupid_platz_add' %}?praxis={{ g.praxis.id }}&zeitraum={{ z.id }}&student={{ student.id }}&manuell=True"
+                    target="_blank" class="btn btn-success btn-xs"
+                    >Platz vergeben</a></td>
+                {% endif %}
+              </tr>
+            {% endif %}
+            {% endfor %}
+          </table>
+          </div>
+          {% endif %}
+        </td>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

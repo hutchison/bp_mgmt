@@ -1,0 +1,902 @@
+[
+{
+  "pk": 1,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Amy",
+    "name": "Avalos",
+    "landkreis": 7,
+    "zeitraeume": [5, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": true,
+    "sono": true,
+    "plz": 18243,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 2,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Anette",
+    "name": "Alber",
+    "landkreis": 5,
+    "zeitraeume": [],
+    "kinder": true,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 19000,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 3,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Azucena",
+    "name": "Ankney",
+    "landkreis": 8,
+    "zeitraeume": [4, 7, 8, 9],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": false,
+    "plz": 19015,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 4,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Barrett",
+    "name": "Bowley",
+    "landkreis": 10,
+    "zeitraeume": [2, 3, 5, 6, 7],
+    "kinder": true,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 18250,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 5,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Bronwyn",
+    "name": "Bloch",
+    "landkreis": 8,
+    "zeitraeume": [2, 6],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 19077,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 6,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Candra",
+    "name": "Cipolla",
+    "landkreis": 10,
+    "zeitraeume": [2, 3, 4, 8],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 19034,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 7,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Cherlyn",
+    "name": "Capello",
+    "landkreis": 9,
+    "zeitraeume": [1, 2],
+    "kinder": false,
+    "kompl": true,
+    "sport": false,
+    "sono": false,
+    "plz": 19084,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 8,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Claud",
+    "name": "Comes",
+    "landkreis": 6,
+    "zeitraeume": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": true,
+    "sono": false,
+    "plz": 18220,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 9,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Cleotilde",
+    "name": "Cree",
+    "landkreis": 10,
+    "zeitraeume": [3, 6, 7, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": true,
+    "plz": 18323,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 10,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Cyrstal",
+    "name": "Coger",
+    "landkreis": 4,
+    "zeitraeume": [1, 2, 3, 5, 7, 8],
+    "kinder": false,
+    "kompl": false,
+    "sport": true,
+    "sono": false,
+    "plz": 17174,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 11,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Dagny",
+    "name": "Duchesne",
+    "landkreis": 3,
+    "zeitraeume": [],
+    "kinder": true,
+    "kompl": false,
+    "sport": true,
+    "sono": false,
+    "plz": 19097,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 12,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Del",
+    "name": "Dewalt",
+    "landkreis": 3,
+    "zeitraeume": [4],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 18229,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 13,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Dolores",
+    "name": "Dilley",
+    "landkreis": 6,
+    "zeitraeume": [1, 5, 7, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": true,
+    "sono": true,
+    "plz": 18087,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 14,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Donnetta",
+    "name": "Dorrell",
+    "landkreis": 4,
+    "zeitraeume": [3],
+    "kinder": true,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 19390,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 15,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Erin",
+    "name": "Eichhorn",
+    "landkreis": 3,
+    "zeitraeume": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": true,
+    "kompl": true,
+    "sport": false,
+    "sono": true,
+    "plz": 19384,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 16,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Ester",
+    "name": "Eastland",
+    "landkreis": 3,
+    "zeitraeume": [1, 3, 5, 6],
+    "kinder": false,
+    "kompl": true,
+    "sport": false,
+    "sono": false,
+    "plz": 19005,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 17,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Ferne",
+    "name": "Flegle",
+    "landkreis": 3,
+    "zeitraeume": [7],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 18094,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 18,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Garnet",
+    "name": "Gottfried",
+    "landkreis": 1,
+    "zeitraeume": [1, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": true,
+    "plz": 19387,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 19,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Homer",
+    "name": "Hummell",
+    "landkreis": 4,
+    "zeitraeume": [],
+    "kinder": true,
+    "kompl": true,
+    "sport": false,
+    "sono": false,
+    "plz": 19055,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 20,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Jenelle",
+    "name": "Jhonson",
+    "landkreis": 8,
+    "zeitraeume": [1, 2, 7],
+    "kinder": false,
+    "kompl": true,
+    "sport": false,
+    "sono": true,
+    "plz": 18231,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 21,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Justina",
+    "name": "Jorge",
+    "landkreis": 8,
+    "zeitraeume": [],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": true,
+    "plz": 17163,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 22,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Kandice",
+    "name": "Kelling",
+    "landkreis": 5,
+    "zeitraeume": [1, 3, 8],
+    "kinder": false,
+    "kompl": true,
+    "sport": false,
+    "sono": false,
+    "plz": 18042,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 23,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Karine",
+    "name": "Knowles",
+    "landkreis": 1,
+    "zeitraeume": [1, 2, 4, 5, 6, 8],
+    "kinder": true,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 19383,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 24,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Katy",
+    "name": "Koenig",
+    "landkreis": 4,
+    "zeitraeume": [2, 5],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 18089,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 25,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Kirk",
+    "name": "Koontz",
+    "landkreis": 10,
+    "zeitraeume": [1, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": true,
+    "plz": 23959,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 26,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Lavonda",
+    "name": "Linneman",
+    "landkreis": 4,
+    "zeitraeume": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": true,
+    "sono": true,
+    "plz": 18097,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 27,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Leonila",
+    "name": "Ladner",
+    "landkreis": 3,
+    "zeitraeume": [1, 2, 3, 4, 5, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": true,
+    "plz": 18206,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 28,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Lisbeth",
+    "name": "Leader",
+    "landkreis": 9,
+    "zeitraeume": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": true,
+    "kompl": false,
+    "sport": false,
+    "sono": false,
+    "plz": 19053,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 29,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Lola",
+    "name": "Liddle",
+    "landkreis": 10,
+    "zeitraeume": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": false,
+    "kompl": true,
+    "sport": false,
+    "sono": true,
+    "plz": 19383,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 30,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Lorenzo",
+    "name": "Leday",
+    "landkreis": 9,
+    "zeitraeume": [1, 2, 4, 5],
+    "kinder": true,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 18320,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 31,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Lucille",
+    "name": "Lindblom",
+    "landkreis": 4,
+    "zeitraeume": [2],
+    "kinder": false,
+    "kompl": false,
+    "sport": true,
+    "sono": false,
+    "plz": 23988,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 32,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Marcela",
+    "name": "Milot",
+    "landkreis": 7,
+    "zeitraeume": [7, 8, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": true,
+    "sono": true,
+    "plz": 18054,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 33,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Marci",
+    "name": "Meidinger",
+    "landkreis": 7,
+    "zeitraeume": [1],
+    "kinder": true,
+    "kompl": false,
+    "sport": false,
+    "sono": false,
+    "plz": 19026,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 34,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Maxima",
+    "name": "Meisel",
+    "landkreis": 2,
+    "zeitraeume": [1, 2, 3, 5, 7, 8, 9],
+    "kinder": true,
+    "kompl": false,
+    "sport": false,
+    "sono": false,
+    "plz": 18044,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 35,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "May",
+    "name": "Mines",
+    "landkreis": 5,
+    "zeitraeume": [1, 2, 3, 4, 5, 6],
+    "kinder": true,
+    "kompl": true,
+    "sport": false,
+    "sono": true,
+    "plz": 19014,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 36,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Nichelle",
+    "name": "Nassar",
+    "landkreis": 3,
+    "zeitraeume": [1, 2, 3, 4, 5, 7, 8, 9],
+    "kinder": true,
+    "kompl": true,
+    "sport": true,
+    "sono": false,
+    "plz": 17176,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 37,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Nova",
+    "name": "Nawrocki",
+    "landkreis": 3,
+    "zeitraeume": [1, 2, 4, 5, 7, 8, 9],
+    "kinder": true,
+    "kompl": false,
+    "sport": false,
+    "sono": false,
+    "plz": 18083,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 38,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Novella",
+    "name": "Nolley",
+    "landkreis": 10,
+    "zeitraeume": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": true,
+    "kompl": true,
+    "sport": false,
+    "sono": false,
+    "plz": 18213,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 39,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Rae",
+    "name": "Royer",
+    "landkreis": 6,
+    "zeitraeume": [3, 5],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": true,
+    "plz": 19007,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 40,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Rich",
+    "name": "Rockefeller",
+    "landkreis": 7,
+    "zeitraeume": [1, 3, 4, 5, 6, 8],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 19070,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 41,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Rosemary",
+    "name": "Rupp",
+    "landkreis": 8,
+    "zeitraeume": [1, 5, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": false,
+    "plz": 19011,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 42,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Sabrina",
+    "name": "Sykora",
+    "landkreis": 2,
+    "zeitraeume": [1, 2, 4, 5, 6, 7, 9],
+    "kinder": false,
+    "kompl": false,
+    "sport": false,
+    "sono": true,
+    "plz": 18211,
+    "nur_mit_auto": false,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 43,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Santos",
+    "name": "Shurtleff",
+    "landkreis": 1,
+    "zeitraeume": [1, 2, 3, 4, 6, 7, 9],
+    "kinder": true,
+    "kompl": true,
+    "sport": false,
+    "sono": false,
+    "plz": 18254,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 44,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Shayna",
+    "name": "Saini",
+    "landkreis": 7,
+    "zeitraeume": [1, 3, 4, 7, 9],
+    "kinder": true,
+    "kompl": true,
+    "sport": false,
+    "sono": true,
+    "plz": 18043,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 45,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Shonta",
+    "name": "Silberman",
+    "landkreis": 1,
+    "zeitraeume": [1, 5, 6, 7, 8, 9],
+    "kinder": false,
+    "kompl": true,
+    "sport": true,
+    "sono": true,
+    "plz": 18034,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 46,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Steffanie",
+    "name": "Stiger",
+    "landkreis": 4,
+    "zeitraeume": [1, 5, 9],
+    "kinder": true,
+    "kompl": false,
+    "sport": false,
+    "sono": false,
+    "plz": 18271,
+    "nur_mit_auto": false,
+    "freie_unterkunft": true,
+    "billige_unterkunft": true
+  }
+},
+{
+  "pk": 47,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Suzanna",
+    "name": "Selvey",
+    "landkreis": 7,
+    "zeitraeume": [],
+    "kinder": true,
+    "kompl": true,
+    "sport": false,
+    "sono": true,
+    "plz": 17174,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 48,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Tory",
+    "name": "Trotman",
+    "landkreis": 9,
+    "zeitraeume": [1, 3, 4, 5, 6, 7, 8, 9],
+    "kinder": true,
+    "kompl": false,
+    "sport": false,
+    "sono": false,
+    "plz": 17165,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 49,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Viola",
+    "name": "Vidaurri",
+    "landkreis": 9,
+    "zeitraeume": [1, 2, 3, 7, 8],
+    "kinder": false,
+    "kompl": true,
+    "sport": false,
+    "sono": false,
+    "plz": 18212,
+    "nur_mit_auto": true,
+    "freie_unterkunft": true,
+    "billige_unterkunft": false
+  }
+},
+{
+  "pk": 50,
+  "model": "bp_cupid.praxis",
+  "fields": {
+    "vorname": "Zane",
+    "name": "Zepeda",
+    "landkreis": 5,
+    "zeitraeume": [4, 7, 8],
+    "kinder": true,
+    "kompl": false,
+    "sport": true,
+    "sono": true,
+    "plz": 18322,
+    "nur_mit_auto": true,
+    "freie_unterkunft": false,
+    "billige_unterkunft": true
+  }
+}
+]

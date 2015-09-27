@@ -1,0 +1,123 @@
+{% extends "bp_cupid/base.html" %}
+{% load l10n %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(window).load(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+    html: 'true'
+  });
+});
+</script>
+{% endblock %}
+
+{% block nav %}
+<li>
+  <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" data-trigger="focus"
+    data-content="<p>Hier werden alle abgespeicherten Studenten aufgelistet. Die Sortierung erfolgt nach Nachname.</p>
+    <p>Grün hinterlegte Studenten wurden manuell platziert; blaue automatisch; gelbe machen extern.</p>">
+    <i class="fa fa-question-circle"></i>
+  </a>
+</li>
+{% endblock nav %}
+
+{% block content %}
+<div class="container-fluid">
+  {% if anz_studis %}
+  <div class="row">
+    <div class="col-lg-offset-2 col-lg-8">
+      <div class="progress">
+        {% localize off %}
+        <div class="progress-bar" style="width: {{ rel_fragebogen }}%; min-width: 4em;">
+        {% endlocalize %}
+          <abbr title="{{ rel_fragebogen }}% haben den Fragebogen ausgefüllt">{{ anz_studis_mit_fragebogen }}/{{ anz_studis }}</abbr>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      {% if studenten %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th><abbr title="Wurde der Fragebogen schon ausgefüllt?"><i class="fa fa-list-alt"></i></abbr></th>
+            <th>Kinder</th>
+            <th>Sono</th>
+            <th>Sport</th>
+            <th>Kompl.</th>
+            <th>BW</th>
+            <th><abbr title="Auto und Führerschein?"><i class="fa fa-car"></i></abbr></th>
+            <th>Landkreise</th>
+            <th class="col-md-1 col-lg-1">priv. Unterkunft</th>
+            <th class="col-md-1 col-lg-1">bevorzugte Praxen</th>
+            <th class="col-md-1 col-lg-1">Sonstiges</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for s in studenten %}
+        {% if s.hat_platz %}
+          {% if s.platz.manuell %}
+          <tr class="bg-success">
+          {% else %}
+          <tr class="bg-info">
+          {% endif %}
+        {% elif s.extern %}
+        <tr class="bg-warning">
+        {% else %}
+        <tr>
+        {% endif %}
+          <td><a href="{% url 'bp_cupid:student' s.mat_nr %}">{{ s.vorname}} {{ s.name}}</a><br />{{ s.mat_nr }}</td>
+          <td><a href="mailto:{{ s.email }}">{{ s.email }}</a></td>
+          <td>
+            {% if s.hat_fragebogen_ausgefuellt %}
+            <i class="fa fa-check"></i>
+            {% else %}
+            <i class="fa fa-remove"></i>
+            {% endif %}
+          </td>
+          <td>{{ s.gewichtung_kinder }}</td>
+          <td>{{ s.gewichtung_sono }}</td>
+          <td>{{ s.gewichtung_sport }}</td>
+          <td>{{ s.gewichtung_kompl }}</td>
+          <td>{{ s.gewichtung_hohe_duene }}</td>
+          <td>
+            {% if s.fs_und_fahrzeug %}
+            <i class="fa fa-check"></i>
+            {% else %}
+            <i class="fa fa-remove"></i>
+            {% endif %}
+          </td>
+          <td>{{ s.gewaehlte_landkreise|safe }}</td>
+          <td>
+            {% if s.priv_unterkunft %}
+            <i class="fa fa-check"></i> {{ s.adresse_priv_unterkunft }}
+            {% else %}
+            <i class="fa fa-remove"></i>
+            {% endif %}
+          </td>
+          <td>
+            {% if s.bevorzugte_praxen.exists %}
+            {% for praxis in s.bevorzugte_praxen.all %}
+            {{ praxis.vorname }} {{ praxis.name }}<br />
+            {% endfor %}
+            {% endif %}
+          </td>
+          <td>{{ s.sonstiges }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>
+        Bisher sind keine Studenten in diesem Verwaltungszeitraum eingetragen.
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

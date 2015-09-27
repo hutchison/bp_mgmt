@@ -1,0 +1,49 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(window).load(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+    html: 'true'
+  });
+});
+</script>
+{% endblock %}
+
+{% block nav %}
+<li>
+  <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" data-trigger="hover"
+    data-content="Exportiert die Plätze aller Praxen vom aktuellen Verwaltungszeitraum als PDF-Datei"
+    href="{% url 'bp_cupid:pdf_praxen' %}">
+    <i class="fa fa-file-pdf-o"></i>
+  </a>
+</li>
+{% endblock nav %}
+
+{% block content %}
+<div class="container-fluid">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Adresse</th>
+        <th>Landkreis</th>
+        <th>Telefonnr.</th>
+        <th>PDF</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in praxen %}
+      <tr>
+        <td><a href="{% url 'bp_cupid:praxis' p.id %}">{{ p.anrede }} {{ p.vorname }} {{ p.name }}</a></td>
+        <td>{{ p.adresse }}, {{ p.plz }} {{ p.ort }}</td>
+        <td>{{ p.landkreis }}</td>
+        <td>{{ p.telefon }}</td>
+        <td><a href="{% url 'bp_cupid:pdf_praxis' p.id %}"><i class="fa fa-file-pdf-o"></i></a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

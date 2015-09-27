@@ -1,0 +1,12 @@
+*.pyc
+*.sqlite3
+*/__pycache__/*
+.ipython/**/*.sqlite
+.ipython/**/*.css
+.ipython/**/*.js
+.ipython/**/*.json
+.ipython/**/README
+.ipython/profile_*/*
+.DS_Store
+shenanigans/
+*.ipynb

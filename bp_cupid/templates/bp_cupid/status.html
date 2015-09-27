@@ -1,0 +1,16 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="col-sm-6 col-md-6 col-lg-4">
+    <h2>Status <small>{{ verwzr }}</small></h2>
+    <table class="table">
+      {% for k, v in fakten.items %}
+      <tr>
+        <td>{{ k }}</td><td>{{ v }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

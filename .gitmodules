@@ -1,0 +1,3 @@
+[submodule "bp_cupid/static/bp_cupid/js/ace"]
+	path = bp_cupid/static/bp_cupid/js/ace
+	url = https://github.com/ajaxorg/ace-builds.git

@@ -1,0 +1,345 @@
+{% extends "bp_cupid/base.html" %}
+
+{% load staticfiles %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+  $('#uebernachtung1').change(function() {
+    $('#uebernachtungsort').prop('disabled', false);
+  });
+
+  $('#uebernachtung0').change(function() {
+    $('#uebernachtungsort').val('');
+    $('#uebernachtungsort').prop('disabled', true);
+  });
+});
+
+function validiere_Landkreise() {
+  var landkreise = $("[name=landkreis]");
+  var anzahl_gewaehlter_landkreise = 0;
+  var richtige_anzahl = false;
+
+  landkreise.each(function() {
+    if ($(this).is(":checked")) {
+      anzahl_gewaehlter_landkreise += 1;
+    }
+  });
+
+  richtige_anzahl = anzahl_gewaehlter_landkreise == 3;
+
+  if (! richtige_anzahl) {
+    $('#landkreiswarnung').toggle(true);
+  }
+
+  return richtige_anzahl;
+}
+
+function validiere_priv_Unterkunft() {
+  var adresse_private_unterkunft = "";
+  if ($("#uebernachtung1").is(":checked")) {
+    adresse_private_unterkunft = $("#uebernachtungsort").val().trim()
+    if (adresse_private_unterkunft == "") {
+      $("#uebernachtungswarnung").toggle(true);
+      return false;
+    }
+  }
+  return true;
+}
+
+function validiere_Fragebogen() {
+  var checks = [
+    validiere_Landkreise(),
+    validiere_priv_Unterkunft(),
+  ];
+
+  var i = 0;
+  for (i = 0; i < checks.length; i++) {
+    if (!checks[i]) {
+      $('#fragebogenwarnung').toggle(true);
+      return false;
+    }
+  }
+
+  return true;
+}
+</script>
+{% endblock javascript %}
+
+{% block content %}
+<div class="container-fluid">
+  <form action="{% url 'bp_setup:fragebogen' %}" method="post" accept-charset="utf-8" onsubmit="return validiere_Fragebogen()">
+    <div class="row">
+      <div class="col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+        {% csrf_token %}
+        <h2>Fragebogen an die Studierenden zum Blockpraktikum Allgemeinmedizin <small>WS 2015-16 und SS 2016</small></h2>
+        {% if not student %}
+        <div class="alert alert-warning">
+          Mit Ihrem Account ist kein Student verknüpft.
+          Falls Sie sich als Student eingeloggt haben,
+          melden Sie sich bitte bei uns.
+        </div>
+        {% endif %}
+        <p>
+          Liebe Studierende,<br />
+          insgesamt gilt es, im gesamten Studienjahr ca. 240 Studentinnen und
+          Studenten auf 70 Lehrarztpraxen in Rostock und dem übrigen
+          Mecklenburg-Vorpommern zu unterschiedlichen Zeiträumen einzuteilen.
+          Wir laden Sie daher herzlich ein, diesen Fragebogen auszufüllen,
+          damit wir die möglichst passende Lehrarztpraxis für Ihr
+          Blockpraktikum Allgemeinmedizin finden können und die Wünsche aller
+          Studierenden möglichst gleichmäßig und gerecht berücksichtigt werden.
+        </p>
+        <p>
+          Bitte geben Sie an, an welchen <strong>Praxiskriterien</strong> Sie im
+          Blockpraktikum Allgemeinmedizin <strong>sehr großes</strong> Interesse,
+          <strong>etwas</strong> Interesse bzw. <strong>kein</strong> Interesse haben.
+        </p>
+        <div class="form-group">
+          <p>
+            <strong>1.</strong> Ich habe Interesse daran, dass in meiner Blockpraktikumspraxis
+            regelmäßig <strong>Kinder und Jugendliche</strong> behandelt werden.
+          </p>
+          <div class="radio">
+            <label>
+              <input type="radio" name="kinder" id="kinder2" value="2">
+              sehr großes Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="kinder" id="kinder1" value="1">
+              etwas Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="kinder" id="kinder0" value="0">
+              kein Interesse
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>2.</strong> Ich habe Interesse daran, dass in meiner Blockpraktikumspraxis die
+            Möglichkeit besteht, <strong>Sonografie</strong> unter Anleitung durchzuführen.
+          </p>
+          <div class="radio">
+            <label>
+              <input type="radio" name="sono" id="sono2" value="2">
+              sehr großes Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="sono" id="sono1" value="1">
+              etwas Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="sono" id="sono0" value="0">
+              kein Interesse
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>3.</strong> Ich habe Interesse daran, dass in meiner Blockpraktikumspraxis
+            Patienten <strong>sportmedizinisch</strong> betreut werden.
+          </p>
+          <div class="radio">
+            <label>
+              <input type="radio" name="sport" id="sport2" value="2">
+              sehr großes Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="sport" id="sport1" value="1">
+              etwas Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="sport" id="sport0" value="0">
+              kein Interesse
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>4.</strong> Ich habe Interesse daran, dass in meiner Blockpraktikumspraxis auch
+            <strong>komplementärmedizinische</strong> Verfahren angewendet werden.
+          </p>
+          <div class="radio">
+            <label>
+              <input type="radio" name="kompl" id="kompl2" value="2">
+              sehr großes Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="kompl" id="kompl1" value="1">
+              etwas Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="kompl" id="kompl0" value="0">
+              kein Interesse
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>5.</strong> Ich kann es mir gut vorstellen, die allgemeinmedizinische
+            Versorgung von Patienten an einem <strong>Bundeswehrstandort</strong> kennenzulernen.
+          </p>
+          <div class="radio">
+            <label>
+              <input type="radio" name="hoheduene" id="hoheduene2" value="2">
+              sehr großes Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="hoheduene" id="hoheduene1" value="1">
+              etwas Interesse
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="hoheduene" id="hoheduene0" value="0">
+              kein Interesse
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>6.</strong> Besitzen Sie einen <strong>Führerschein</strong> und verfügen für die
+            Dauer des Blockpraktikums über ein <strong>Fahrzeug</strong>?
+          </p>
+          <div class="radio">
+            <label>
+              <input type="radio" name="fsundauto" id="fsundauto1" value="1">
+              ja, ich besitze einen Führerschein <strong>und</strong> ich
+              verfüge über ein Fahrzeug
+            </label>
+          </div>
+          <div class="radio">
+            <label>
+              <input type="radio" name="fsundauto" id="fsundauto0" value="0">
+              nein
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>7.</strong> Etwa die Hälfte unserer Lehrarztpraxen befindet sich direkt in
+            Rostock, die andere Hälfte befindet sich in den auf der Karte
+            dargestellten Regionen. (Zum Vergrößern bitte draufklicken.)
+          </p>
+          <a href="{% static 'bp_setup/img/mv-map.jpg' %}" target="_blank">
+            <img src="{% static 'bp_setup/img/mv-map.jpg' %}" class="img-responsive" alt="Regionen in MV"/>
+          </a>
+          <p>
+            Bitte wählen Sie aus den folgenden Landkreisen
+            <strong>genau 3</strong> aus, bei denen Sie sich vorstellen können,
+            Ihr Blockpraktikum zu absolvieren.  Beachten Sie bitte, dass Ihre
+            Präferenzen bei weniger als 3 gewählten Landkreisen nicht
+            berücksichtigt werden können.
+          </p>
+          <p>
+            Zusatzinformation: Die Kassenärztliche Vereinigung erstattet Ihnen
+            die Fahrtkosten zu den weiter entfernt liegenden Praxen in
+            Mecklenburg-Vorpommern.
+          </p>
+          <div class="alert alert-danger" id="landkreiswarnung" style="display: none;">
+            Bitte wählen Sie genau 3 Landkreise aus.
+          </div>
+          {% for landkreis in landkreise %}
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="landkreis" id="landkreis{{ landkreis.id }}" value="{{ landkreis.id }}">
+              {{ landkreis.plz_von }} – {{ landkreis.plz_bis }} (Praxen in {{ landkreis.orte }})
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>8.</strong> Haben Sie in den genannten Landkreisen eine
+            <strong>private Übernachtungsmöglichkeit</strong>, z.&thinsp;B. bei
+            Verwandten oder Freunden?
+          </p>
+          <p>
+            Falls ja, geben Sie bitte den Ort und möglichst auch die Postleitzahl an.
+          </p>
+          <div class="alert alert-danger" id="uebernachtungswarnung" style="display: none;">
+            Bitte geben Sie Ort + PLZ an.
+          </div>
+          <div class="form-inline">
+            <label class="radio-inline">
+              <input type="radio" name="uebernachtung" id="uebernachtung1" value="1">
+              ja, in
+            </label>
+            <input type="text" style="width: 50%;" class="form-control input-sm" name="uebernachtungsort" id="uebernachtungsort" placeholder="PLZ + Ort" disabled>
+          </div>
+          <label class="radio-inline">
+            <input type="radio" name="uebernachtung" id="uebernachtung0" value="0">
+            nein
+          </label>
+        </div>
+        <div class="form-group">
+          <p>
+            <strong>9.</strong> Die folgenden Lehrarztpraxen liegen im ländlichen Raum und bieten
+            neben einer intensiven Betreuung der Studierenden eine
+            <strong>kostenfreie Unterkunft</strong> für die Zeit des
+            Blockpraktikums an. In den vergangenen Jahren wurden die
+            Blockpraktika in diesen Praxen von Ihren Kommilitonen durchweg sehr
+            positiv bewertet.
+          </p>
+          <p>
+            Ich kann mir gut vorstellen, mein Blockpraktikum in einer der
+            folgenden Praxen durchzuführen:
+          </p>
+          {% for praxis in besondere_la_praxen %}
+          <div class="checkbox checkbox-praxis">
+            <label>
+              <input type="checkbox" name="praxis" id="praxis{{ praxis.id }}" value="{{ praxis.id }}">
+              {{ praxis.anrede }} {{ praxis.titel }} {{ praxis.vorname }} {{ praxis.name }},
+              <a href="{{ praxis.maps_link }}" target="_blank"><i class="fa fa-globe"></i> {{ praxis.plz }} {{ praxis.ort }}</a>
+            </label>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="form-group">
+          <p>
+            Haben Sie weitere wichtige Mitteilungen zur Vergabe des
+            Blockpraktikumsplatzes an uns?
+          </p>
+          <textarea class="form-control" rows="5" name="ergaenzungen" id="ergaenzungen" value=""></textarea>
+        </div>
+        <p>
+          Sie sind nun am Ende des Fragebogens angelangt.
+        </p>
+        <p>
+          Herzlichen Dank für Ihre Angaben!
+        </p>
+        <p>
+          Über Ihre Einteilung für das Blockpraktikum werden Sie Ende Juli per
+          E-Mail informiert. Weitere Informationen finden Sie auf unserer
+          <a href="#" target="_blank">Homepage</a>.
+        </p>
+        <div class="alert alert-danger" id="fragebogenwarnung" style="display: none;">
+          Bitte korrigieren Sie die Fehler und schicken Sie die Daten erneut ab!
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary"{% if not student %} disabled="disabled"{% endif %}>Abschicken</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

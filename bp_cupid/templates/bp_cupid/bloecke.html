@@ -1,0 +1,32 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      <table class="table">
+        <thead>
+          <tr>
+            {% for b in bloecke %}
+            <th>{{ b.name }}</th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        {% for bl in blocklisten %}
+        <tr>
+          {% for p in bl %}
+          {% if p %}
+          <td>{{ p.student.vorname}} {{ p.student.name }} ({{ p.student.mat_nr }})</td>
+          {% else %}
+          <td></td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

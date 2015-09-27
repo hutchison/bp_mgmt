@@ -1,0 +1,185 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block stylesheets %}
+<style type="text/css" media="screen">
+  td {
+    text-align: center;
+  }
+  th {
+    max-width: 150px;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4 col-lg-4">
+      {% if laufende_Gewichtsberechnung %}
+      <div class="alert alert-info">
+        Die Gewichte zwischen den Praxen und den Studenten werden gerade berechnet.
+        Das dauert ungefähr eine Minute.
+        Versuch’s mal mit <a href="{% url 'bp_cupid:gewichte' %}" class="alert-link">neu laden</a>.
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <table class="table table-bordered table-condensed">
+        <caption>Daten der Gewichtsberechnung</caption>
+        <tbody>
+          <tr>
+            <th colspan="2" rowspan="2" style="text-align: center; vertical-align: middle;">
+              <form action="{% url 'bp_cupid:gewichte' %}" method="post" accept-charset="utf-8">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary"{% if laufende_Gewichtsberechnung %} disabled="disabled"{% endif %}>alle Gewichte berechnen</button>
+              </form>
+            </th>
+            <th colspan="12" style="text-align: center;">Praxis</th>
+          </tr>
+          <tr>
+            <th colspan="2">Kinder</th>
+            <th colspan="2">Sono</th>
+            <th colspan="2">Sport</th>
+            <th colspan="2">Kompl.</th>
+            <th>Bundeswehr</th>
+            <th><abbr title="Landkreis der Praxis stimmt mit einem der gewählten Landkreise des Studenten überein">Landkreis</abbr></th>
+            <th>besondere Praxis mit kostenfreier Unterkunft</th>
+            <th>nur per Auto erreichbar</th>
+          </tr>
+          <tr>
+            <th style="text-align: center;">Student</th>
+            <td></td>
+            <td>nein</td>
+            <td>ja</td>
+            <td>nein</td>
+            <td>ja</td>
+            <td>nein</td>
+            <td>ja</td>
+            <td>nein</td>
+            <td>ja</td>
+            <td>Praxis gehört zur BW</td>
+            <td></td>
+            <td>Praxis ist Dassing, Pöhler oder Stehfest</td>
+            <td>ja</td>
+          </tr>
+          <tr>
+            <th rowspan="3" style="vertical-align: middle;">Kinder</th>
+            <td><abbr title="kein Interesse">0</abbr></td>
+            <td>+2</td>
+            <td>–2</td>
+            <td colspan="10" rowspan="3"></td>
+          </tr>
+          <tr>
+            <td><abbr title="etwas Interesse">1</abbr></td>
+            <td>–2</td>
+            <td>+2</td>
+          </tr>
+          <tr>
+            <td><abbr title="sehr großes Interesse">2</abbr></td>
+            <td>–5</td>
+            <td>+5</td>
+          </tr>
+          <tr>
+            <th rowspan="3" style="vertical-align: middle;">Sono</th>
+            <td>0</td>
+            <td colspan="2" rowspan="3"></td>
+            <td>+2</td>
+            <td>–2</td>
+            <td colspan="8" rowspan="3"></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>–2</td>
+            <td>+2</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>–5</td>
+            <td>+5</td>
+          </tr>
+          <tr>
+            <th rowspan="3" style="vertical-align: middle;">Sport</th>
+            <td>0</td>
+            <td colspan="4" rowspan="3"></td>
+            <td>+2</td>
+            <td>–2</td>
+            <td colspan="6" rowspan="3"></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>–2</td>
+            <td>+2</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>–5</td>
+            <td>+5</td>
+          </tr>
+          <tr>
+            <th rowspan="3" style="vertical-align: middle;">Kompl.</th>
+            <td>0</td>
+            <td colspan="6" rowspan="3"></td>
+            <td>+2</td>
+            <td>–10</td>
+            <td colspan="4" rowspan="3"></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>–2</td>
+            <td>+2</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>–5</td>
+            <td>+5</td>
+          </tr>
+          <tr>
+            <th rowspan="3" style="vertical-align: middle;">Bundeswehr</th>
+            <td>0</td>
+            <td colspan="8" rowspan="3"></td>
+            <td>–10</td>
+            <td colspan="3" rowspan="3"></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>+2</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>+5</td>
+          </tr>
+          <tr>
+            <th><abbr title="Landkreis der Praxis stimmt mit einem der gewählten Landkreise des Studenten überein">Landkreis</abbr></th>
+            <td></td>
+            <td colspan="9"></td>
+            <td>+3</td>
+            <td colspan="2"></td>
+          </tr>
+          <tr>
+            <th>besondere Praxis mit kostenfreier Unterkunft</th>
+            <td></td>
+            <td colspan="10"></td>
+            <td style="vertical-align: middle;">+7</td>
+            <td></td>
+          </tr>
+          <tr>
+            <th rowspan="2" style="vertical-align: middle;">FS und Auto</th>
+            <td>nein</td>
+            <td colspan="10"></td>
+            <td>kein Malus, wenn die Praxis nur per Auto erreichbar ist</td>
+            <td>–50</td>
+          </tr>
+          <tr>
+            <td>ja</td>
+            <td colspan="10"></td>
+            <td>kein Bonus, wenn die Praxis nur per Auto erreichbar ist</td>
+            <td>+7</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

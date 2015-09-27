@@ -1,0 +1,92 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(window).load(function(){
+  $('.popoverData').popover({
+    container: 'body',
+    html: 'true'
+  });
+});
+</script>
+{% endblock %}
+
+{% block stylesheets %}
+<style>
+table * {
+  font-size: 11px;
+}
+
+.platzkommentar {
+  margin-top: 1ex;
+}
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="container-fluid">
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th rowspan="2">Praxis</th>
+        {% for k in kapazitaeten %}
+        <th colspan="{{ k.anz_zr }}">{{ k.name }}</th>
+        {% endfor %}
+        <th rowspan="2">Platzbegrenzung</th>
+      </tr>
+      <tr>
+        {% for z in zeitraeume %}
+        <td>{{ z.anfang|date:"j.n.y" }} – {{ z.ende|date:"j.n.y" }}</td>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for praxis, belegungen in platztabelle.items %}
+    <tr>
+      <td>{{ praxis.name }}</td>
+      {% for b in belegungen %}
+      {% if b.student %}
+      <td>
+        <a href="{% url 'admin:bp_cupid_platz_change' b.student.id %}"
+          class="popoverData"
+          title="{{ b.student.vorname }} {{ b.student.name }}"
+          data-content="{{ b.zeitraum.anfang|date:'j.n.y' }} – {{ b.zeitraum.ende|date:'j.n.y' }}<br />
+            bei {{ b.praxis.vorname }} {{ b.praxis.name }}{% if b.kommentar %}<br /><p class='platzkommentar'>{{ b.kommentar }}</p>{% endif %}"
+          data-trigger="hover"
+          data-placement="top"
+          target="_blank">
+          {% if b.manuell %}<mark>{{ b.student.mat_nr}}</mark>{% else %}{{ b.student.mat_nr}}{% endif %}
+        </a>
+      </td>
+      {% elif b.anfang %}
+      <td>
+        <a href="{% url 'admin:bp_cupid_platz_add' %}?praxis={{ praxis.id }}&zeitraum={{ b.id }}&manuell=True"
+          class="popoverData"
+          data-content="{{ b.anfang|date:'j.n.y' }} – {{ b.ende|date:'j.n.y' }}<br />
+            bei {{ praxis.vorname }} {{ praxis.name }}"
+          data-trigger="hover"
+          data-placement="top"
+          target="_blank">
+          <i class="fa fa-check-square"></i>
+        </a>
+      </td>
+      {% elif forloop.last %}
+      <td>{{ b.0 }}/{{ b.1|default_if_none:'—' }}</td>
+      {% else %}
+      <td></td>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    <tr>
+      <th>Kapazität</th>
+      {% for k in kapazitaeten %}
+      <td colspan="{{ k.anz_zr }}">
+        {{ k.vergebene_plaetze }}/{{ k.max_kap }}
+      </td>
+      {% endfor %}
+    </tr>
+    </tbody>
+  </table>
+</div>
+{% endblock %}

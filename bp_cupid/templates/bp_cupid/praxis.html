@@ -1,0 +1,141 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(window).load(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+    html: 'true'
+  });
+});
+</script>
+{% endblock %}
+
+{% block nav %}
+<li>
+  <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" data-trigger="focus"
+    data-content="<p>Hier werden alle Studenten und die dazugehörigen Gewichte aufgelistet. Die Sortierung erfolgt vom größten zum kleinsten Gewicht.</p>
+    <p>Eine markierte Zeile bedeutet, dass der Student bei dieser Praxis einen Platz abbekommen hat. Eine grüne Zeile ist ein manuell vergebener Platz; bei blau wurde der Platz automatisch vergeben.</p>">
+    <i class="fa fa-question-circle"></i>
+  </a>
+</li>
+<li>
+  <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" data-trigger="hover"
+    data-content="Exportiert die Plätze dieser Praxis vom aktuellen Verwaltungszeitraum als PDF-Datei"
+    href="{% url 'bp_cupid:pdf_praxis' praxis.id %}">
+    <i class="fa fa-file-pdf-o"></i>
+  </a>
+</li>
+{% endblock nav %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>
+        Gewichte von {{ praxis.vorname }} {{ praxis.name }}
+        <small>{{ praxis.adresse }}, {{ praxis.plz }} {{ praxis.ort }}</small>
+        <span class="badge">
+          {{ anzahl_plaetze }}{% if platzbegrenzung %}/{{ platzbegrenzung }}{% endif %}
+        </span>
+      </h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-9 col-lg-9">
+      {% if gewichte %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="col-md-5 col-lg-5">Name</th>
+            <th>Matrikelnummer</th>
+            <th>Gewicht</th>
+            <th class="col-md-4 col-lg-4">Kommentar</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for g in gewichte %}
+          {% if g.student.platz.praxis_id == praxis.id %}
+            {% if g.student.platz.manuell %}
+            <tr class="bg-success">
+            {% else %}
+            <tr class="bg-info">
+            {% endif %}
+          {% else %}
+          <tr>
+          {% endif %}
+            <td><a href="{% url 'bp_cupid:student' g.student.mat_nr %}">{{ g.student.vorname }} {{ g.student.name }}</a>
+            {% if g.student.platz.praxis_id == praxis.id %}
+            <div style="margin-top: 10px;">
+              <span class="label label-default">{{ g.student.platz.zeitraum.anfang|date:"j. F Y" }} bis {{ g.student.platz.zeitraum.ende|date:"j. F Y" }}</span>
+              {% if g.student.platz.kommentar %}
+              <p style="margin-top: 1em;">{{ g.student.platz.kommentar }}</p>
+              {% endif %}
+            </div>
+            {% endif %}
+            </td>
+            <td>{{ g.student.mat_nr }}</td>
+            <td>{{ g.wert }}</td>
+            <td>{{ g.umgebrochener_kommentar|safe }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>Keine Gewichte vorhanden.</p>
+      {% endif %}
+    </div>
+    <div class="col-md-3 col-lg-3">
+      <h4>Zeiträume</h4>
+      {% if zeitraeume %}
+      <ul class="list-unstyled">
+      {% for z in zeitraeume %}
+        {% if z in praxis.freie_zeitraeume.all %}
+        <li>{{ z.id }}: {{ z.anfang }} bis {{ z.ende }}</li>
+        {% else %}
+        <li><del>{{ z.id }}: {{ z.anfang }} bis {{ z.ende }}</del></li>
+        {% endif %}
+      {% endfor %}
+      </ul>
+      {% else %}
+      <p>Keine Zeiträume eingetragen.</p>
+      {% endif %}
+      <h4>
+        Zusatzinformationen
+        <small>
+          <a href="#" onclick="$('#modal_zusatzinfo').modal('show')">
+            {% if zusatzinfo %}
+            bearbeiten
+            {% else %}
+            hinzufügen
+            {% endif %}
+          </a>
+        </small>
+      </h4>
+      <p>{{ zusatzinfo.text|safe|linebreaksbr }}</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modal_zusatzinfo" tabindex="-1" role="dialog" data-backdrop="static">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form action="{% url 'bp_cupid:zusatzinfo' %}" method="post" accept-charset="utf-8">
+        <div class="modal-header">
+          <h4 class="modal-title">Zusatzinformation bearbeiten</h4>
+        </div>
+        <div class="modal-body">
+          {% csrf_token %}
+          <input type="hidden" value="{{ praxis.id }}" name="praxis_id" id="praxis_id"/>
+          <input type="hidden" value="{{ verwaltungszeitraum.id }}" name="verwaltungszeitraum_id" id="verwaltungszeitraum_id"/>
+          <textarea class="form-control" name="zusatzinfo_text" rows="17">{{ zusatzinfo.text }}</textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+          <button type="submit" class="btn btn-primary">Speichern</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

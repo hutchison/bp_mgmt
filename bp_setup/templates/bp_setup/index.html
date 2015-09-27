@@ -1,0 +1,181 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-offset-1 col-lg-5 col-md-6">
+      <h2>Hallo {{ student.vorname }},</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-offset-1 col-lg-4 col-md-6">
+      <p>
+        zur Kontrolle listen wir hier ein paar allgemeine Daten auf:
+      </p>
+      <table class="table table-condensed">
+        <tr>
+          <th class="col-lg-4">Name</th>
+          <td>{{ student.vorname }} {{ student.name }}</td>
+        </tr>
+        <tr>
+          <th>Matrikelnummer</th>
+          <td>{{ student.mat_nr }}</td>
+        </tr>
+        <tr>
+          <th>E-Mail-Adresse</th>
+          <td>{{ student.email }}</td>
+        </tr>
+        <tr>
+          <th>Geschlecht</th>
+          <td>
+            {% if student.weiblich %}
+            <abbr title="weiblich" class="initialism"><i class="fa fa-venus"></i></abbr>
+            {% else %}
+            <abbr title="männlich" class="initialism"><i class="fa fa-mars"></i></abbr>
+            {% endif %}
+          </td>
+        </tr>
+      </table>
+      <p>
+        Falls davon irgendwas unstimmig sein sollte,
+        <a href="mailto:">melden Sie sich</a>
+        bitte bei uns.
+      </p>
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+        {{ message }}
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div>
+    <div class="col-lg-offset-1 col-lg-5 col-md-6">
+      {% if student.hat_fragebogen_ausgefuellt %}
+      <p>
+        Folgende Daten haben wir gespeichert:
+      </p>
+      <table class="table table-condensed">
+        <tr>
+          <th class="col-lg-4">Kinder</th>
+          <td>
+            {% if student.gewichtung_kinder == 2 %}
+            sehr großes
+            {% elif student.gewichtung_kinder == 1 %}
+            etwas
+            {% else %}
+            kein
+            {% endif %}
+            Interesse
+          </td>
+        </tr>
+        <tr>
+          <th>Sonografie</th>
+          <td>
+            {% if student.gewichtung_sono == 2 %}
+            sehr großes
+            {% elif student.gewichtung_sono == 1 %}
+            etwas
+            {% else %}
+            kein
+            {% endif %}
+            Interesse
+          </td>
+        </tr>
+        <tr>
+          <th>Sportmedizin</th>
+          <td>
+            {% if student.gewichtung_sport == 2 %}
+            sehr großes
+            {% elif student.gewichtung_sport == 1 %}
+            etwas
+            {% else %}
+            kein
+            {% endif %}
+            Interesse
+          </td>
+        </tr>
+        <tr>
+          <th>Komplementärmedizin</th>
+          <td>
+            {% if student.gewichtung_kompl == 2 %}
+            sehr großes
+            {% elif student.gewichtung_kompl == 1 %}
+            etwas
+            {% else %}
+            kein
+            {% endif %}
+            Interesse
+          </td>
+        </tr>
+        <tr>
+          <th>Bundeswehr</th>
+          <td>
+            {% if student.gewichtung_hohe_duene == 2 %}
+            sehr großes
+            {% elif student.gewichtung_hohe_duene == 1 %}
+            etwas
+            {% else %}
+            kein
+            {% endif %}
+            Interesse
+          </td>
+        </tr>
+        <tr>
+          <th>Führerschein und Auto</th>
+          <td>
+            {% if student.fs_und_fahrzeug %}
+            <i class="fa fa-thumbs-o-up"></i>
+            {% else %}
+            <i class="fa fa-thumbs-o-down"></i>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>bevorzugte Landkreise</th>
+          <td>
+            {% for landkreis in student.landkreise.all %}
+            {{ landkreis.plz_von }} – {{ landkreis.plz_bis }} ({{ landkreis.orte }})<br />
+            {% endfor %}
+          </td>
+        </tr>
+        <tr>
+          <th>private Unterkunft</th>
+          <td>
+            {% if student.priv_unterkunft %}
+            <i class="fa fa-thumbs-o-up"></i> ({{ student.adresse_priv_unterkunft }})
+            {% else %}
+            <i class="fa fa-thumbs-o-down"></i>
+            {% endif %}
+          </td>
+        </tr>
+        {% if student.bevorzugte_praxen.exists %}
+        <tr>
+          <th>bevorzugte Praxen</th>
+          <td>
+            {% for praxis in student.bevorzugte_praxen.all %}
+            {{ praxis.anrede }} {{ praxis.name }}, {{ praxis.plz }} {{ praxis.ort }}<br />
+            {% endfor %}
+          </td>
+        </tr>
+        {% endif %}
+        {% if student.sonstiges %}
+        <tr>
+          <th>weitere Mitteilungen</th>
+          <td>{{ student.sonstiges }}</td>
+        </tr>
+        {% endif %}
+      </table>
+      <p>
+        Über Ihre Einteilung für das Blockpraktikum werden Sie Ende Juli per
+        E-Mail informiert. Weitere Informationen finden Sie auf unserer
+        <a href="" target="_blank">Homepage</a>.
+      </p>
+      {% else %}
+      <p>
+        Bitte füllen Sie noch den <a href="{% url 'bp_setup:fragebogen' %}">Fragebogen</a> aus!
+      </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

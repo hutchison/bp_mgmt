@@ -1,0 +1,66 @@
+[
+{
+  "pk": 1,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 1",
+    "verwaltungszeitraum": 1
+  }
+},
+{
+  "pk": 2,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 2",
+    "verwaltungszeitraum": 1
+  }
+},
+{
+  "pk": 3,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 3",
+    "verwaltungszeitraum": 1
+  }
+},
+{
+  "pk": 4,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 4",
+    "verwaltungszeitraum": 1
+  }
+},
+{
+  "pk": 5,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 5",
+    "verwaltungszeitraum": 1
+  }
+},
+{
+  "pk": 6,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 6",
+    "verwaltungszeitraum": 1
+  }
+},
+{
+  "pk": 7,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 7",
+    "verwaltungszeitraum": 1
+  }
+},
+{
+  "pk": 8,
+  "model": "bp_cupid.block",
+  "fields": {
+    "name": "Block 8",
+    "verwaltungszeitraum": 1
+  }
+}
+]

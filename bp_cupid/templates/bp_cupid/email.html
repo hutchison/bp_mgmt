@@ -1,0 +1,286 @@
+{% extends "bp_cupid/base.html" %}
+{% load staticfiles %}
+
+{% block stylesheets %}
+<style type="text/css" media="screen">
+  #editor {
+    margin: 10px 0 0 0;
+    height: 300px;
+    font-size: 12px;
+  }
+</style>
+{% endblock stylesheets %}
+
+{% block javascript %}
+<script src="{% static 'bp_cupid/js/ace/src-noconflict/ace.js' %}" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+function change_vorlage() {
+  $.getJSON(
+    '/api/vorlage/' + $('#vorlagetoken').val(),
+    function(data) {
+      editor.setValue(data.text);
+    }
+  );
+}
+
+function add_error(selector) {
+  $(selector).parent().addClass('has-error');
+  $(selector + '-warning').toggle(true);
+}
+
+function remove_error(selector) {
+  $(selector).parent().removeClass('has-error');
+  $(selector + '-warning').toggle(false);
+}
+
+function preview_email() {
+  $.post(
+    '/email/preview/',
+    {
+      csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(),
+      content: editor.getValue()
+    },
+    function(data) {
+      // schalte in den Vorschaumodus:
+      $('#preview-info').hide();
+      $('#preview-container').show();
+      // befülle die Felder:
+      $('#preview-subject').html($('#email-subject').val());
+      $('#preview-content').html(data);
+    }
+  );
+}
+
+function activate_students(block_id) {
+  if ($('#block_' + block_id).is(":checked")) {
+    $('*[data-block="' + block_id + '"]').prop('checked', true);
+  } else {
+    $('*[data-block="' + block_id + '"]').prop('checked', false);
+  }
+}
+
+function activate_free_students() {
+  if ($('#check_free_students').is(":checked")) {
+    $('*[data-free="true"]').prop('checked', true);
+  } else {
+    $('*[data-free="true"]').prop('checked', false);
+  }
+}
+
+$(window).load(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+    html: 'true'
+  });
+
+  $('#send-emails-form').submit(function(event) {
+    // der Betreff darf nicht leer sein:
+    if (! $('#email-subject').val().trim()) {
+      add_error('#email-subject');
+      event.preventDefault();
+    }
+
+    // bevor wir die Daten absenden, schaufeln wir die Text in das geheime
+    // Inputfeld, damit die Daten auch beim Server ankommen:
+    $('#email-content').val(editor.getValue());
+
+    // der Inhalt darf nicht leer sein:
+    if (! $('#email-content').val().trim()) {
+      add_error('#email-content');
+      event.preventDefault();
+    }
+
+    // wenn Testmails verschickt werden sollen,
+    // darf das BCC-Feld nicht leer sein:
+    if ($('#testmail').is(":checked") && ! $('#email-bcc').val().trim()) {
+      add_error('#email-bcc');
+      event.preventDefault();
+    }
+  });
+
+  // anfangs laden wir die aktuelle Vorlage:
+  change_vorlage();
+});
+</script>
+{% endblock %}
+
+{% block nav %}
+<li>
+  <a tabindex="0" role="button" data-toggle="popover" data-placement="bottom" data-trigger="hover"
+    data-content="<p>
+    Hier werden alle Studenten in ihren Blöcken aufgelistet. Wähle die
+    Studenten aus, die eine E-Mail erhalten sollen. Ein Klick auf den
+    Block aktiviert alle Studenten in dem Block.
+    </p>">
+    <i class="fa fa-question-circle"></i>
+  </a>
+</li>
+{% endblock nav %}
+
+{% block content %}
+<div class="container-fluid">
+  {% if messages %}
+  <div class="row">
+    <div class="col-lg-6 col-md-6">
+      {% for message in messages %}
+      <div class="alert alert-dismissible{% if message.tags %} alert-{{ message.tags }}{% endif %}">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        {{ message|safe }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+  <form id="send-emails-form" action="{% url 'bp_cupid:email' %}" method="post">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-lg-6 col-md-6">
+        <div class="form-group">
+          <label class="control-label" for="vorlagetoken">Vorlage:</label>
+          {% if vorlagen %}
+          <select name="vorlagetoken" id="vorlagetoken" class="form-control" onchange="change_vorlage()">
+            {% for vorlage in vorlagen %}
+            <option>{{ vorlage.token }}</option>
+            {% endfor %}
+          </select>
+          <p class="help-block">Wenn du eine neue Vorlage wählst, wird sie automatisch geladen.</p>
+          {% else %}
+          <p style="padding-top: 7px; margin-bottom: 0;">
+            Um eine Vorlage auszuwählen, musst du <a href="{% url 'admin:bp_cupid_vorlage_add' %}" target="_blank">erst eine erstellen</a>.
+          </p>
+          {% endif %}
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="email-subject">Betreff:</label>
+          <input type="text" id="email-subject" name="email-subject" class="form-control" placeholder="Betreff" onkeydown="remove_error('#email-subject')">
+          <p id="email-subject-warning" class="help-block text-danger" style="display: none;">
+            Der Betreff darf nicht leer sein.
+          </p>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="email-bcc">BCC:
+            <span data-toggle="popover" data-placement="right"
+              data-trigger="hover" data-content="Wenn das BCC Feld leer ist, wird kein BCC verwendet.">
+                <i class="fa fa-question-circle"></i>
+            </span>
+          </label>
+          <input type="text" id="email-bcc" name="email-bcc" class="form-control" onkeydown="remove_error('#email-bcc')">
+          <p id="email-bcc-warning" class="help-block text-danger" style="display: none;">
+            Wenn Testmails verschickt werden sollen, darf das BCC-Feld nicht leer sein.
+          </p>
+        </div>
+        <div class="form-group">
+          <label class="control-label" for="editor">
+            Inhalt:
+            <span data-toggle="popover" data-placement="right"
+              data-trigger="hover"
+              data-content="In der Vorlage hast du Zugriff auf den Studenten und (sofern vorhanden) den Platz.
+              Kleine Hilfe:<br />
+              <code>{% verbatim %}{{ student.name }}{% endverbatim %}</code> liefert den Nachnamen des Studenten,<br />
+              <code>{% verbatim %}{{ platz.praxis.name }}{% endverbatim %}</code> liefert den Nachnamen der Praxis.">
+                <i class="fa fa-question-circle"></i>
+            </span>
+          </label>
+          <input type="hidden" id="email-content" name="email-content">
+          <div id="editor" onkeydown="remove_error('#email-content')"></div>
+          <p id="email-content-warning" class="help-block text-danger" style="display: none;">
+            Der Inhalt darf nicht leer sein.
+          </p>
+        </div>
+        <div class="form-group">
+          <button type="button" class='btn btn-default' onclick="preview_email()">Vorschau
+            <span data-toggle="popover" data-placement="bottom"
+            data-trigger="hover" data-content="Für die Vorschau wird ein
+            zufälliger Student des aktuellen Verwaltungszeitraums ausgewählt
+            und durch die Vorlage gejagt.">
+              <i class="fa fa-question-circle"></i>
+            </span>
+          </button>
+          <div class="checkbox" style="display: inline; margin-left: 1em;">
+            <label>
+              <input type="checkbox" name="testmail" id="testmail"> Testmail verschicken
+              <span data-toggle="popover" data-placement="bottom" data-trigger="hover"
+              data-content="Wenn angewählt, dann werden die E-Mails für die gewählten Studenten generiert und an die im BCC angegebene Adresse verschickt.">
+                <i class="fa fa-question-circle"></i>
+              </span>
+            </label>
+          </div>
+          <button type="submit" class='btn btn-primary' style="float: right;">E-Mails verschicken</button>
+        </div>
+      </div>
+      <div id="preview-info" class="col-lg-6 col-md-6">
+        <p>Klicke auf „Vorschau“ um eine Vorschau zu erzeugen.</p>
+      </div>
+      <div id="preview-container" class="col-lg-6 col-md-6" style="display: none;">
+        <div class="form-group">
+          <label>Betreff:</label>
+          <p style="text-align: left;" id="preview-subject"></p>
+        </div>
+        <div class="form-group">
+          <label>Inhalt:</label>
+          <pre id="preview-content" style="font-size: 12px;"></pre>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <h4>vergebene Plätze</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              {% for b in bloecke %}
+              <th>
+                <label>
+                  <input type="checkbox" id="block_{{ b.id }}" onchange="activate_students({{ b.id }})">
+                  {{ b.name }}
+                </label>
+              </th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for bl in blocklisten %}
+            <tr>
+              {% for platz in bl %}
+              {% if platz %}
+              <td>
+                <label class="checkbox-inline">
+                  <input type="checkbox" name="student" value="{{ platz.student.mat_nr }}" data-block="{{ platz.zeitraum.block_id }}">
+                  {{ platz.student.vorname}} {{ platz.student.name }} ({{ platz.student.mat_nr }})
+                </label>
+              </td>
+              {% else %}
+              <td></td>
+              {% endif %}
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <h4><label><input type="checkbox" id="check_free_students" onchange="activate_free_students()"> freie Studenten</label></h4>
+        {% for student in freie_studenten %}
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" name="student" value="{{ student.mat_nr }}" data-free="true">
+            {{ student.vorname }} {{ student.name }} ({{ student.mat_nr }}, {{ student.verwaltungszeitraum.name }})
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </form>
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  var editor = ace.edit("editor");
+  editor.setTheme("ace/theme/solarized_light");
+  editor.getSession().setMode("ace/mode/django");
+  editor.renderer.setShowGutter(false);
+</script>
+{% endblock %}
