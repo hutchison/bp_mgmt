@@ -23,6 +23,7 @@ def platzuebersicht(request):
     )
 
     context = {
+        'akt_verw_zr': akt_verw_zr,
         'bloecke': bloecke,
         'zeitraeume': zeitraeume,
         'kapazitaeten': kapazitaeten(akt_verw_zr),
@@ -58,6 +59,18 @@ def kapazitaeten(verwaltungszeitraum):
     return kap
 
 def platztabelle(zeitraeume):
+    """
+    Gibt die Platztabelle der übergebenen Zeiträume zurück.
+
+    Die Platztabelle ist ein OrderedDict. Die Schlüssel sind die Praxen. Zu
+    jeder Praxis gibt es eine Liste. Die Elemente dieser Liste sind entweder:
+        * Plätze
+            dann ist dieser Zeitraum mit einem Platz belegt
+        * Zeiträume
+            dann ist der Zeitraum noch frei
+        * None
+            dann ist der Zeitraum durch einen anderen Platz belegt
+    """
     akt_verw_zr = zeitraeume.first().block.verwaltungszeitraum
     praxen = Praxis.objects.order_by('name').prefetch_related(
         'freie_zeitraeume',

@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^zusatzinfo/$', views.zusatzinfo, name='zusatzinfo'),
     url(r'^pdf/praxis/(?P<praxis_id>\d+)/$', views.pdf.praxis, name='pdf_praxis'),
     url(r'^pdf/praxen/$', views.pdf.praxen, name='pdf_praxen'),
+    url(r'^excel/platzuebersicht/(?P<verwzr_id>\d+)$', views.excel.platzuebersicht, name='excel/platzuebersicht'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

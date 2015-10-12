@@ -23,6 +23,12 @@ table * {
 </style>
 {% endblock stylesheets %}
 
+{% block nav %}
+<li>
+  <a href="{% url 'bp_cupid:excel/platzuebersicht' akt_verw_zr.id %}" target="_blank"><i class="fa fa-file-excel-o"></i></a>
+</li>
+{% endblock nav %}
+
 {% block content %}
 <div class="container-fluid">
   <table class="table table-condensed">

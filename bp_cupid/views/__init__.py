@@ -14,3 +14,4 @@ from bp_cupid.views.email import email, preview_email
 from bp_cupid.views.zusatzinfo import zusatzinfo
 from bp_cupid.views.pdf import praxis as pdf_praxis
 from bp_cupid.views.pdf import praxen as pdf_praxen
+from bp_cupid.views import excel
