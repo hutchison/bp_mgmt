@@ -25,4 +25,9 @@ class Migration(migrations.Migration):
                 'verbose_name_plural': 'Zeiträume',
             },
         ),
+        migrations.AddField(
+            model_name='zeitraum',
+            name='ueberlappende',
+            field=models.ManyToManyField(related_name='ueberlappende_rel_+', related_query_name='ueberlappende', blank=True, to='bp_cupid.Zeitraum', db_table='ueberlappende_zeitraeume'),
+        ),
     ]

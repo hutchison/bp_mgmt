@@ -16,7 +16,7 @@ def entferne_ueberlappende_zeitraeume(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bp_cupid', '0026_zeitraum_ueberlappende'),
+        ('bp_cupid', '0025_platz_change_ordering'),
     ]
 
     operations = [

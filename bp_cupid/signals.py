@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from bp_cupid.models import (
     Praxis,
     Platz,
+    Zeitraum,
 )
 
 import logging
@@ -36,3 +37,8 @@ def aktualisiere_zeitraeume_nach_platzloeschung(sender, instance, **kwargs):
         'Signal post_delete von Platz erhalten. '
         'Aktualisiere Zeiträume von {}.'.format(praxis)
     )
+
+@receiver(post_save, sender=Zeitraum)
+def aktualisiere_ueberlappende_zeitraeume(sender, instance, **kwargs):
+    instance.aktualisiere_zeitraeume()
+    logger.debug('Aktualisiere überlappende Zeiträume von {}'.format(instance))

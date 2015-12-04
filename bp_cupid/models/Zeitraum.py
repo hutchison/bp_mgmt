@@ -51,9 +51,5 @@ class Zeitraum(models.Model):
         verbose_name_plural = 'Zeiträume'
         ordering = ['anfang']
 
-    def save(self, *args, **kwargs):
-        self.aktualisiere_zeitraeume()
-        super(self.__class__, self).save(*args, **kwargs)
-
     def __str__(self):
         return '%s - %s (%s)' % (self.anfang, self.ende, self.id)
