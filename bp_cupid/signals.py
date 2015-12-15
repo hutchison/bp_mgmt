@@ -9,16 +9,17 @@ from bp_cupid.models import (
 import logging
 logger = logging.getLogger(__name__)
 
-@receiver(pre_save, sender=Praxis)
-def aktualisiere_zeitraeume_vor_praxisspeicherung(sender, instance, **kwargs):
-    # Wir können die Zeiträume erst aktualisieren, wenn die Praxis in der
-    # Datenbank gespeichert wurde (und damit eine id hat):
-    if instance.id:
-        logger.debug(
-            'Signal pre_save von Praxis erhalten. '
-            'Aktualisiere Zeiträume von {}.'.format(instance)
-        )
-        instance.aktualisiere_zeitraeume()
+@receiver(post_save, sender=Praxis)
+def aktualisiere_zeitraeume_nach_praxisspeicherung(sender, instance, **kwargs):
+    """
+    Wir können die Zeiträume erst aktualisieren, wenn die Praxis in der
+    Datenbank gespeichert wurde (und damit eine id hat):
+    """
+    logger.debug(
+        'Signal post_save von Praxis erhalten. '
+        'Aktualisiere Zeiträume von {}.'.format(instance)
+    )
+    instance.aktualisiere_zeitraeume()
 
 @receiver(post_save, sender=Platz)
 def aktualisiere_zeitraeume_nach_platzspeicherung(sender, instance, **kwargs):
