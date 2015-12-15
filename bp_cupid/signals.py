@@ -1,4 +1,4 @@
-from django.db.models.signals import pre_save, post_save, post_delete
+from django.db.models.signals import post_save, post_delete, m2m_changed
 from django.dispatch import receiver
 from bp_cupid.models import (
     Praxis,
@@ -16,10 +16,18 @@ def aktualisiere_zeitraeume_nach_praxisspeicherung(sender, instance, **kwargs):
     Datenbank gespeichert wurde (und damit eine id hat):
     """
     logger.debug(
-        'Signal post_save von Praxis erhalten. '
         'Aktualisiere Zeiträume von {}.'.format(instance)
     )
     instance.aktualisiere_zeitraeume()
+
+"""
+Hier aktualisieren wir die Zeiträume einer Praxis immer dann, wenn die
+ManyToMany-Beziehung Praxis-Zeitraum geändert wird:
+"""
+m2m_changed.connect(
+    aktualisiere_zeitraeume_nach_praxisspeicherung,
+    sender=Praxis.zeitraeume.through,
+)
 
 @receiver(post_save, sender=Platz)
 def aktualisiere_zeitraeume_nach_platzspeicherung(sender, instance, **kwargs):
