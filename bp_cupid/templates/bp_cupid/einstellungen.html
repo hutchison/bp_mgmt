@@ -1,0 +1,21 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block content %}
+<div class="container-fluid">
+  <h2>Einstellungen</h2>
+  <form class="form-horizontal" action="{% url 'bp_cupid:einstellungen' %}" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+    <div class="form-group">
+      <label class="col-sm-4 col-md-3 col-lg-2 control-label" for="verwaltungszeitraum">aktueller Verwaltungszeitraum:</label>
+      <div class="col-sm-6 col-md-4 col-lg-2">
+        <select name="verwaltungszeitraum" id="verwaltungszeitraum" class="form-control">
+          {% for verwzr in verwzrs %}
+          <option value="{{ verwzr.id }}"{% if verwzr == akt_verw_zeitraum %} selected{% endif %}>{{ verwzr }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <button type="submit" class='btn btn-primary'>Speichern</button>
+  </form>
+</div>
+{% endblock %}

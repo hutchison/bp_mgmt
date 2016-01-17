@@ -118,7 +118,7 @@
           <ul class="nav navbar-nav navbar-right">
           {% if user.is_authenticated %}
             {% if user.is_staff %}
-            <li><p class="navbar-text">{{ user.mitarbeiter.akt_verw_zeitraum }}</p></li>
+            <li><a href="{% url 'bp_cupid:einstellungen' %}">{{ user.mitarbeiter.akt_verw_zeitraum }} <i class="fa fa-cogs"></i></a></li>
             {% endif %}
             <li><a id="logout" href="{% url 'logout' %}?next=/">{{ user.username }} <small><i class="fa fa-power-off"></i></small></a></li>
           {% else %}

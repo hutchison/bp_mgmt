@@ -6,6 +6,7 @@ from bp_cupid import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^status/$', views.status, name='status'),
+    url(r'^einstellungen/$', views.einstellungen, name='einstellungen'),
     url(r'^gewichte/$', views.gewichte, name='gewichte'),
     url(r'^studenten/$', views.studenten, name='studenten'),
     url(r'^student/(?P<mat_nr>\d+)/$', views.student, name='student'),
