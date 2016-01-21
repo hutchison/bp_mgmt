@@ -1,0 +1,100 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block javascript %}
+<script type="text/javascript">
+function validiere_Bloecke() {
+  var bloecke = $("#bloecke :checkbox");
+  var irgendein_block_gecheckt = false;
+
+  bloecke.each(function() {
+    if ($(this).is(':checked')) {
+      irgendein_block_gecheckt = true;
+    }
+  });
+
+  if (! irgendein_block_gecheckt) {
+    $('#blockwarnung').toggle(true);
+  }
+
+  return irgendein_block_gecheckt;
+}
+
+function alle_Bloecke_waehlen() {
+  var bloecke = $("#bloecke :checkbox");
+
+  bloecke.each(function() {
+    $(this).prop('checked', true);
+  });
+}
+</script>
+{% endblock javascript %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2">
+      <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="active" ><a href="{% url 'bp_cupid:zufaellig_verteilen' %}">zufällige Verteilung</a></li>
+        <li role="presentation"><a href="{% url 'bp_cupid:gezielt_verteilen' %}">gezielte Verteilung</a></li>
+      </ul>
+      <p>
+        <div class="alert alert-warning">
+          <strong>Achtung:</strong> bei der Verteilung wird noch nicht die verfügbare Kapazität berücksichtigt.
+          Falls du also mehr Studenten verteilen möchtest, als Plätze verfügbar sind, dann werden die übrigen einfach nicht verteilt.
+          Eine Kapazitätsanzeige ist in Planung.
+        </div>
+      </p>
+    </div>
+    <div class="col-sm-9 col-md-9 col-lg-10">
+      {% if laufende_Platzverteilung %}
+      <div class="alert alert-info">
+        Die Plätze werden gerade verteilt.
+        Das dauert ungefähr eine Minute.
+        Versuch’s mal mit <a href="{% url 'bp_cupid:zufaellig_verteilen' %}" class="alert-link">neu laden</a>.
+      </div>
+      {% endif %}
+      <form action="{% url 'bp_cupid:zufaellig_verteilen' %}" method="post" accept-charset="utf-8" onsubmit="return validiere_Bloecke()">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="anzahl_studenten">Wie viele Studenten sollen verteilt werden? (noch {{ anzahl_freie_studenten }} frei)</label>
+          <div class="row">
+            <div class="col-sm-4 col-md-4 col-lg-2">
+              <input type="number" name="anzahl_studenten" id="anzahl_studenten" class="form-control" value="120" min="0"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="bloecke">Auf welche Blöcke sollen sie verteilt werden? (<a href="javascript:alle_Bloecke_waehlen();">alle anwählen</a>)</label>
+          <p class="text-danger" id="blockwarnung" style="display: none;">Ein Block muss mindestens ausgewählt werden!</p>
+          <div id="bloecke" name="bloecke">
+            {% for b in bloecke %}
+            <div class="checkbox">
+              <label><input type="checkbox" name="block" value="{{ b.id }}" /> {{ b.name }}</label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="blocklimit">Wie viele Studenten sollen maximal pro Block verteilt werden? </label>
+          <div class="row">
+            <div class="col-sm-4 col-md-4 col-lg-2">
+              <input type="number" name="blocklimit" id="blocklimit" class="form-control" value="30" min="0"/>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" name="loeschen" value="true" />
+              automatisch verteilte Plätze löschen
+            </label>
+          </div>
+        </div>
+        <p>
+          <button type="submit" class="btn btn-primary"{% if laufende_Platzverteilung %} disabled="disabled"{% endif %}>Studenten verteilen</button>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

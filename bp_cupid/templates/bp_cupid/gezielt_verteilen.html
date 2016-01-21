@@ -1,0 +1,91 @@
+{% extends "bp_cupid/base.html" %}
+
+{% block javascript %}
+<script type="text/javascript">
+$(window).load(function(){
+  $('[data-toggle="popover"]').popover({
+    container: 'body',
+    html: 'true'
+  });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-3 col-md-3 col-lg-2"> <!-- Übersicht der Verteilungen -->
+      <ul class="nav nav-pills nav-stacked">
+        <li role="presentation"><a href="{% url 'bp_cupid:zufaellig_verteilen' %}">zufällige Verteilung</a></li>
+        <li role="presentation" class="active"><a href="{% url 'bp_cupid:gezielt_verteilen' %}">gezielte Verteilung</a></li>
+      </ul>
+      <p>
+        <div class="alert alert-warning">
+          <strong>Achtung:</strong> bei der Verteilung wird noch nicht die verfügbare Kapazität berücksichtigt.
+          Falls du also mehr Studenten verteilen möchtest, als Plätze verfügbar sind, dann werden die übrigen einfach nicht verteilt.
+          Eine Kapazitätsanzeige ist in Planung.
+        </div>
+      </p>
+    </div>
+    <div class="col-sm-9 col-md-9 col-lg-10"> <!-- Formular und Anzeige der verteilten Plätze -->
+      <form action="{% url 'bp_cupid:gezielt_verteilen' %}" method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <div class="col-sm-6 col-md-6 col-lg-3">
+          <div class="form-group">
+            <label for="freie_studenten">Freie Studenten auswählen</label>
+            <span data-toggle="popover" data-placement="right"
+              data-trigger="hover"
+              data-content="Falls die gesuchten Studenten hier nicht auftauchen, sind sie vielleicht noch im falschen Verwaltungszeitraum eingetragen. Du kannst dies im Adminbereich ändern.">
+                <i class="fa fa-question-circle"></i>
+            </span>
+            <div id="freie_studenten" name="freie_studenten">
+              {% for s in freie_studenten %}
+              <div class="checkbox">
+                <label><input type="checkbox" name="student" value="{{ s.mat_nr }}" /> {{ s.vorname }} {{ s.name }} ({{ s.mat_nr }})</label>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-2">
+          <div class="form-group">
+            <label for="bloecke">Block auswählen</label>
+            <div id="bloecke" name="bloecke">
+              {% for b in bloecke %}
+              <div class="radio">
+                <label><input type="radio" name="block" value="{{ b.id }}"{% if forloop.first %} checked{% endif %}> {{ b.name }}</label>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="form-group">
+            <label>und los:</label>
+            <div>
+              <button class="btn btn-primary btn-block" type="submit">Verteilen</button>
+            </div>
+          </div>
+        </div>
+        {% if plaetze %}
+        <div class="col-sm-12 col-md-12 col-lg-6 col-lg-offset-1">
+          <label>Verteilte Plätze</label>
+          <table class="table table-bordered">
+            <tr>
+              <th>Student</th>
+              <th>Praxis</th>
+              <th>Zeitraum</th>
+            </tr>
+            {% for platz in plaetze %}
+            <tr>
+              <td>{{ platz.student.vorname }} {{ platz.student.name }} ({{ platz.student.mat_nr }})</td>
+              <td>{{ platz.praxis.vorname }} {{ platz.praxis.name }}</td>
+              <td>{{ platz.zeitraum.anfang }} – {{ platz.zeitraum.ende }}</td>
+            </tr>
+            {% endfor %}
+          </table>
+        </div>
+        {% endif %}
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

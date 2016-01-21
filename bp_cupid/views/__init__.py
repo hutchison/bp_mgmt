@@ -7,7 +7,10 @@ from bp_cupid.views.praxen import praxen
 from bp_cupid.views.praxis import praxis
 from bp_cupid.views.plaetze import plaetze
 from bp_cupid.views.platzuebersicht import platzuebersicht
-from bp_cupid.views.verteilen import verteilen
+from .verteilen import (
+    zufaellig_verteilen,
+    gezielt_verteilen,
+)
 from bp_cupid.views.studenten_zulassen import studenten_zulassen
 from bp_cupid.views.bloecke import bloecke
 from bp_cupid.views.email import email, preview_email

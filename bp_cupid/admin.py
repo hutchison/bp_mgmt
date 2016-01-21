@@ -83,7 +83,7 @@ class StudentAdmin(admin.ModelAdmin):
         'extern',
         'hat_fragebogen_ausgefuellt',
     )
-    list_editable = ('weiblich',)
+    list_editable = ('weiblich', 'verwaltungszeitraum')
     filter_horizontal = (
         'landkreise',
         'bevorzugte_praxen',
@@ -154,6 +154,7 @@ admin.site.register(Praxis, PraxisAdmin)
 class GewichtAdmin(admin.ModelAdmin):
     list_display = ('student', 'praxis', 'wert', 'umgebrochener_kommentar')
     ordering = ('student', 'praxis')
+    search_fields = ['student__vorname', 'student__name', 'student__mat_nr']
 
 admin.site.register(Gewicht, GewichtAdmin)
 
