@@ -3,19 +3,37 @@
 {% block content %}
 <div class="container-fluid">
   <h2>Einstellungen</h2>
-  <form class="form-horizontal" action="{% url 'bp_cupid:einstellungen' %}" method="post" accept-charset="utf-8">
-    {% csrf_token %}
-    <div class="form-group">
-      <label class="col-sm-4 col-md-3 col-lg-2 control-label" for="verwaltungszeitraum">aktueller Verwaltungszeitraum:</label>
-      <div class="col-sm-6 col-md-4 col-lg-2">
-        <select name="verwaltungszeitraum" id="verwaltungszeitraum" class="form-control">
-          {% for verwzr in verwzrs %}
-          <option value="{{ verwzr.id }}"{% if verwzr == akt_verw_zeitraum %} selected{% endif %}>{{ verwzr }}</option>
-          {% endfor %}
-        </select>
+  <div class="row">
+    {% if gespeichert %}
+    <div class="col-md-4 col-lg-4">
+      <div class="alert alert-dismissible alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        Einsellungen gespeichert!
       </div>
     </div>
-    <button type="submit" class='btn btn-primary'>Speichern</button>
-  </form>
+    {% endif %}
+  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-4">
+      <form class="form-horizontal" action="{% url 'bp_cupid:einstellungen' %}" method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <div class="form-group">
+          <label class="col-sm-4 col-md-6 col-lg-5 control-label" for="verwaltungszeitraum">aktueller Verwaltungszeitraum:</label>
+          <div class="col-sm-8 col-md-6 col-lg-7">
+            <select name="verwaltungszeitraum" id="verwaltungszeitraum" class="form-control">
+              {% for verwzr in verwzrs %}
+              <option value="{{ verwzr.id }}"{% if verwzr == akt_verw_zeitraum %} selected{% endif %}>{{ verwzr }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="text-right">
+          <button type="submit" class='btn btn-primary'>Speichern</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock %}

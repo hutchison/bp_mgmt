@@ -24,5 +24,6 @@ def einstellungen(request):
         mitarbeiter.akt_verw_zeitraum = neuer_verw_zr
         mitarbeiter.save()
         context['akt_verw_zeitraum'] = neuer_verw_zr
+        context['gespeichert'] = True
 
     return render(request, 'bp_cupid/einstellungen.html', context)
