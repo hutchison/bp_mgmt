@@ -70,6 +70,8 @@ def verteile_studenten_auf_block(studenten, block):
             if praxis.hat_platz_in_block(block):
                 zeitraum = praxis.freie_zeitraeume_in_block(block)[0]
                 platz = Platz.vergib_platz(student.id, praxis.id, zeitraum.id)
+                student.verwaltungszeitraum = block.verwaltungszeitraum
+                student.save()
                 plaetze.append(platz)
                 studenten.remove(student)
                 break
@@ -94,9 +96,7 @@ def gezielt_verteilen(request):
 
         context['plaetze'] = plaetze
 
-    freie_studenten = Student.objects.frei().filter(
-        verwaltungszeitraum=akt_verw_zr,
-    ).order_by('name')
+    freie_studenten = Student.objects.frei().order_by('name')
     bloecke = akt_verw_zr.bloecke.order_by('name').prefetch_related(
         'zeitraeume__plaetze',
     )
