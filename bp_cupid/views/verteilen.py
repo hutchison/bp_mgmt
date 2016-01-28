@@ -61,20 +61,47 @@ def zufaellig_verteilen(request):
 
 def verteile_studenten_auf_block(studenten, block):
     studenten = list(studenten)
+    logger.debug(
+        "Verteile die Studenten {} auf Block {}".format(
+            studenten,
+            block
+        )
+    )
     plaetze = []
 
+    """
+    TODO: das muss ich mal überarbeiten.
+    Wir prüfen hier, ob ein Student Gewichte hat. Eigentlich sollten wir
+    sicherstellen, dass immer alle Gewichte vorhanden sind, oder aber die
+    Gewichte berechnen, wenn wir sie brauchen.
+    """
     while studenten:
         student = choice(studenten)
-        for gewicht in student.gewichte.order_by('-wert'):
-            praxis = gewicht.praxis
-            if praxis.hat_platz_in_block(block):
-                zeitraum = praxis.freie_zeitraeume_in_block(block)[0]
-                platz = Platz.vergib_platz(student.id, praxis.id, zeitraum.id)
-                student.verwaltungszeitraum = block.verwaltungszeitraum
-                student.save()
-                plaetze.append(platz)
-                studenten.remove(student)
-                break
+        logger.debug("Versuche Student {} zu verteilen".format(student))
+        logger.debug("dieser hat {} Gewichte".format(student.gewichte.count()))
+
+        if student.gewichte.exists():
+            for gewicht in student.gewichte.order_by('-wert'):
+                praxis = gewicht.praxis
+                if praxis.hat_platz_in_block(block):
+                    zeitraum = praxis.freie_zeitraeume_in_block(block)[0]
+                    platz = Platz.vergib_platz(
+                        student.id,
+                        praxis.id,
+                        zeitraum.id
+                    )
+                    student.verwaltungszeitraum = block.verwaltungszeitraum
+                    student.save()
+                    plaetze.append(platz)
+                    studenten.remove(student)
+                    break
+        else:
+            logger.debug(
+                "Überspringe Student {}, weil keine Gewichte vorhanden sind.".format(
+                    student
+                )
+            )
+            studenten.remove(student)
 
     return plaetze
 
