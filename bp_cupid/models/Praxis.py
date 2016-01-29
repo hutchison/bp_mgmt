@@ -208,11 +208,28 @@ class Praxis(models.Model):
             key=attrgetter('anfang'),
         )
 
+    def platzbegrenzung_erfuellt(self, verw_zr):
+        """
+        Ermittelt, ob die Platzbegrenzung noch nicht erreicht wurde (also Anzahl
+        der Plätze < Platzbegrenzung).
+        """
+        if self.platzbegrenzung.filter(verwaltungszeitraum=verw_zr).exists():
+            pgrenze = self.platzbegrenzung.get(verwaltungszeitraum=verw_zr)
+            anzahl_plaetze = self.plaetze.filter(
+                zeitraum__block__verwaltungszeitraum=verw_zr,
+            ).count()
+            return anzahl_plaetze < pgrenze.anzahl
+        else:
+            return True
+
     def hat_platz_in_block(self, block):
         """
         Gibt an, ob die Praxis in diesem Block noch freie Zeiträume hat.
         """
-        return bool(self.freie_zeitraeume_in_block(block))
+        return (
+            bool(self.freie_zeitraeume_in_block(block)) and
+            self.platzbegrenzung_erfuellt(block.verwaltungszeitraum)
+        )
 
     def voll_belegt(self):
         """
