@@ -15,12 +15,7 @@
 <script src="{% static 'bp_cupid/js/ace/src-noconflict/ace.js' %}" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 function change_vorlage() {
-  $.getJSON(
-    document.location.origin + '/api/vorlage/' + $('#vorlagetoken').val(),
-    function(data) {
-      editor.setValue(data.text);
-    }
-  );
+  $('#vorlagenlink').attr('href', '/email/vorlage/' + $('#vorlagetoken').val());
 }
 
 function add_error(selector) {
@@ -97,8 +92,6 @@ $(window).load(function(){
       event.preventDefault();
     }
   });
-
-  // anfangs laden wir die aktuelle Vorlage:
   change_vorlage();
 });
 </script>
@@ -137,20 +130,22 @@ $(window).load(function(){
     {% csrf_token %}
     <div class="row">
       <div class="col-lg-6 col-md-6">
-        <div class="form-group">
-          <label class="control-label" for="vorlagetoken">Vorlage:</label>
-          {% if vorlagen %}
-          <select name="vorlagetoken" id="vorlagetoken" class="form-control" onchange="change_vorlage()">
-            {% for vorlage in vorlagen %}
-            <option>{{ vorlage.token }}</option>
-            {% endfor %}
-          </select>
-          <p class="help-block">Wenn du eine neue Vorlage wählst, wird sie automatisch geladen.</p>
-          {% else %}
-          <p style="padding-top: 7px; margin-bottom: 0;">
-            Um eine Vorlage auszuwählen, musst du <a href="{% url 'admin:bp_cupid_vorlage_add' %}" target="_blank">erst eine erstellen</a>.
-          </p>
-          {% endif %}
+        <div class="form-inline">
+          <div class="form-group">
+            <label class="control-label" for="vorlagetoken">Vorlage:</label>
+            {% if vorlagen %}
+            <select name="vorlagetoken" id="vorlagetoken" class="form-control" onchange="change_vorlage()">
+              {% for vorlage in vorlagen %}
+              <option{% if vorlage.token == gewaehlte_vorlage.token %} selected{% endif %}>{{ vorlage.token }}</option>
+              {% endfor %}
+            </select>
+            <a id="vorlagenlink" class="btn btn-default" href="#" role="button">Laden</a>
+            {% else %}
+            <p style="padding-top: 7px; margin-bottom: 0;">
+              Um eine Vorlage auszuwählen, musst du <a href="{% url 'admin:bp_cupid_vorlage_add' %}" target="_blank">erst eine erstellen</a>.
+            </p>
+            {% endif %}
+          </div>
         </div>
         <div class="form-group">
           <label class="control-label" for="email-subject">Betreff:</label>
@@ -184,7 +179,7 @@ $(window).load(function(){
             </span>
           </label>
           <input type="hidden" id="email-content" name="email-content">
-          <div id="editor" onkeydown="remove_error('#email-content')"></div>
+          <div id="editor" onkeydown="remove_error('#email-content')">{{ gewaehlte_vorlage.text }}</div>
           <p id="email-content-warning" class="help-block text-danger" style="display: none;">
             Der Inhalt darf nicht leer sein.
           </p>
