@@ -16,7 +16,7 @@
 <script type="text/javascript">
 function change_vorlage() {
   $.getJSON(
-    '/api/vorlage/' + $('#vorlagetoken').val(),
+    document.location.origin + '/api/vorlage/' + $('#vorlagetoken').val(),
     function(data) {
       editor.setValue(data.text);
     }
@@ -35,7 +35,7 @@ function remove_error(selector) {
 
 function preview_email() {
   $.post(
-    '/email/preview/',
+    document.location.origin + '/email/preview/',
     {
       csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(),
       content: editor.getValue()
