@@ -82,6 +82,22 @@ class Platz(models.Model):
         return platz
 
     def clean(self):
+        """
+        Wenn sich zwischen dem alten und neuen Platz nichts geändert hat und wir
+        nur unwichtigen Kram (manuell, pj oder kommentar) ändern, dann brauchen
+        wir die restlichen Checks nicht.
+        """
+        try:
+            alter_platz = Platz.objects.get(pk=self.pk)
+            if all([
+                    alter_platz.zeitraum == self.zeitraum,
+                    alter_platz.praxis == self.praxis,
+                    alter_platz.student == self.student,
+                ]):
+                return
+        except Platz.DoesNotExist:
+            pass
+
         verw_zr = self.zeitraum.block.verwaltungszeitraum
         if self.zeitraum not in self.praxis.zeitraeume.all():
             raise ValidationError(
