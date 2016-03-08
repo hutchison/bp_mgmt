@@ -19,7 +19,7 @@ from ..models import (
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)
-def email(request, vorlagetoken=''):
+def email(request):
     akt_verw_zr = request.user.mitarbeiter.akt_verw_zeitraum
     akt_bloecke = akt_verw_zr.bloecke.order_by('name')
 
@@ -33,11 +33,6 @@ def email(request, vorlagetoken=''):
 
     vorlagen = Vorlage.objects.all()
 
-    if vorlagetoken:
-        gewaehlte_vorlage = Vorlage.objects.get(token=vorlagetoken)
-    else:
-        gewaehlte_vorlage = vorlagen.first()
-
     freie_studenten = Student.objects.frei().select_related(
         'verwaltungszeitraum'
     )
@@ -46,7 +41,6 @@ def email(request, vorlagetoken=''):
         'bloecke': akt_bloecke,
         'blocklisten': blocklisten,
         'vorlagen': vorlagen,
-        'gewaehlte_vorlage': gewaehlte_vorlage,
         'freie_studenten': freie_studenten,
     }
 

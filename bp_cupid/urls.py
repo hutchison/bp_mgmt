@@ -20,7 +20,6 @@ urlpatterns = [
     url(r'^bloecke/$', views.bloecke, name='bloecke'),
     url(r'^email/$', views.email, name='email'),
     url(r'^email/preview/$', views.preview_email, name='preview_email'),
-    url(r'^email/vorlage/(?P<vorlagetoken>.+)$', views.email, name='email'),
     url(r'^zusatzinfo/$', views.zusatzinfo, name='zusatzinfo'),
     url(r'^pdf/praxis/(?P<praxis_id>\d+)/$', views.pdf.praxis, name='pdf_praxis'),
     url(r'^pdf/praxen/$', views.pdf.praxen, name='pdf_praxen'),
