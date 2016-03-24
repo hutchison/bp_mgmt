@@ -69,16 +69,24 @@ MIDDLEWARE_CLASSES = (
     'simple_history.middleware.HistoryRequestMiddleware',
 )
 
-AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap3.backends.LDAPBackend',
-    'django.contrib.auth.backends.ModelBackend',
-)
+
+if DEBUG:
+    AUTHENTICATION_BACKENDS = (
+        'django.contrib.auth.backends.ModelBackend',
+    )
+    AUTH_LDAP_URI = ''
+    AUTH_LDAP_BASE_DN = ''
+else:
+    AUTHENTICATION_BACKENDS = (
+        'django_auth_ldap3.backends.LDAPBackend',
+        'django.contrib.auth.backends.ModelBackend',
+    )
+    # TODO: change this accordingly to your needs:
+    AUTH_LDAP_URI = ''
+    AUTH_LDAP_BASE_DN = ''
+
 
 SITE_ID = 1
-
-# TODO: change this accordingly to your needs:
-AUTH_LDAP_URI = ''
-AUTH_LDAP_BASE_DN = ''
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
