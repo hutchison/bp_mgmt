@@ -1,10 +1,13 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
 from django.conf import settings
 from django.conf.urls.static import static
-from bp_cupid import views
+
+from . import views
+from . import api
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
+    url(regex=r'^api/', view=include(api.urls, namespace='api')),
     url(r'^status/$', views.status, name='status'),
     url(r'^einstellungen/$', views.einstellungen, name='einstellungen'),
     url(r'^gewichte/$', views.gewichte, name='gewichte'),

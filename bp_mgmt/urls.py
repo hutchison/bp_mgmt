@@ -25,7 +25,6 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^setup/', include('bp_setup.urls', namespace='bp_setup')),
     url(r'^info/', include('django.contrib.flatpages.urls')),
-    url(r'^api/', include('bp_cupid.api')),
     url(r'^/?', include('bp_cupid.urls', namespace='bp_cupid')),
     url(r'^login/$', login,
         {'authentication_form': BPAuthenticationForm},
