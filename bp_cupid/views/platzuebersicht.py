@@ -72,7 +72,11 @@ def platztabelle(zeitraeume):
             dann ist der Zeitraum durch einen anderen Platz belegt
     """
     akt_verw_zr = zeitraeume.first().block.verwaltungszeitraum
-    praxen = Praxis.objects.order_by('name').prefetch_related(
+    praxen = Praxis.objects.filter(
+        ist_aktiv=True
+    ).order_by(
+        'name'
+    ).prefetch_related(
         'freie_zeitraeume',
         'plaetze__zeitraum',
         'plaetze__student',

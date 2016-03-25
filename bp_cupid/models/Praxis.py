@@ -77,6 +77,11 @@ class Praxis(models.Model):
     telefax = models.CharField(max_length=20, blank=True, default='')
     homepage = models.URLField(blank=True, default='')
     email = models.EmailField(blank=True, default='')
+    ist_aktiv = models.BooleanField(default=True, verbose_name='ist aktiv')
+    hat_didaktikschulung_besucht = models.BooleanField(
+        default=False,
+        verbose_name='hat Didaktikschulung besucht'
+    )
 
     # BP-relevante Daten
     unterkunft = models.CharField(

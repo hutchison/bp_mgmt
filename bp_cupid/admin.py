@@ -124,6 +124,8 @@ class PraxisAdmin(admin.ModelAdmin):
         'anrede',
         'vorname',
         'name',
+        'ist_aktiv',
+        'hat_didaktikschulung_besucht',
         'landkreis',
         'lehre_bp',
         'lehre_pj',
@@ -142,6 +144,7 @@ class PraxisAdmin(admin.ModelAdmin):
     )
     list_display_links = ('name',)
     readonly_fields = ('freie_zeitraeume', 'belegte_zeitraeume')
+    list_editable = ('ist_aktiv', 'hat_didaktikschulung_besucht')
     ordering = ('name',)
     filter_horizontal = ('zeitraeume', 'freie_zeitraeume', 'belegte_zeitraeume')
     search_fields = ['vorname', 'name']
