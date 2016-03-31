@@ -28,3 +28,6 @@ class Mitarbeiter(models.Model):
     class Meta:
         verbose_name = 'Mitarbeiter'
         verbose_name_plural = 'Mitarbeiter'
+
+    def __str__(self):
+        return self.user.get_full_name()
