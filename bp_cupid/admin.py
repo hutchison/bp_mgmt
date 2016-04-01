@@ -18,6 +18,7 @@ from bp_cupid.models import (
     Mitarbeiter,
     Vorlage,
     ZusatzinfoPraxis,
+    Evaluation,
 )
 from .forms import VorlagenForm
 
@@ -180,3 +181,17 @@ class ZusatzinfoPraxisAdmin(admin.ModelAdmin):
     list_display_links = ('praxis',)
     ordering = ('-verwaltungszeitraum__anfang', 'praxis')
     search_fields = ['praxis', 'text']
+
+@admin.register(Evaluation)
+class EvaluationAdmin(admin.ModelAdmin):
+    list_display = ('platz', 'eval_user', 'datum')
+    list_display_links = ('platz', )
+    readonly_fields = ('datum',)
+    search_fields = [
+        'platz__student__vorname',
+        'platz__student__name',
+        'platz__student__mat_nr',
+        'platz__praxis__vorname',
+        'platz__praxis__name',
+    ]
+    ordering = ('-datum', 'platz__student__name')
