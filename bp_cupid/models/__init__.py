@@ -10,3 +10,4 @@ from bp_cupid.models.Platz import Platz
 from bp_cupid.models.Mitarbeiter import Mitarbeiter
 from bp_cupid.models.Vorlage import Vorlage
 from bp_cupid.models.ZusatzinfoPraxis import ZusatzinfoPraxis
+from .Evaluation import Evaluation
