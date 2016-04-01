@@ -4,6 +4,7 @@ Ein Student.
 
 from django.db import models
 from bp_cupid.models import Landkreis, Verwaltungszeitraum
+from ..validators import telefon_regex
 from django.db.models import Q
 try:
     from django.apps import apps
@@ -96,6 +97,13 @@ class Student(models.Model):
     )
     weiblich = models.BooleanField(
         default=False,
+    )
+    telefonnummer = models.CharField(
+        max_length=15,
+        default='',
+        validators=[telefon_regex],
+        verbose_name='Telefonnummer',
+        blank=True,
     )
     hat_fragebogen_ausgefuellt = models.BooleanField(
         default=False,
