@@ -17,8 +17,7 @@ class Zeitraum(models.Model):
     )
     ueberlappende = models.ManyToManyField(
         'self',
-        related_name='ueberlappende_zrs',
-        related_query_name='ueberlappende',
+        related_name='+',
         db_table='ueberlappende_zeitraeume',
         symmetrical=True,
         blank=True,
