@@ -19,3 +19,4 @@ from bp_cupid.views.pdf import praxis as pdf_praxis
 from bp_cupid.views.pdf import praxen as pdf_praxen
 from bp_cupid.views import excel
 from .einstellungen import einstellungen
+from .Evaluation import EvaluationList, EvaluationDetail

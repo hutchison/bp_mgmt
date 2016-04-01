@@ -30,7 +30,11 @@
         {% for action in action_stream %}
           <tr>
             <td>{{ action.timestamp }} Uhr</td>
-            <td>{{ action.actor.get_full_name }} {{ action.verb }}</td>
+            <td>
+              {{ action.actor.get_full_name }}
+              {{ action.verb }}
+              {% if action.target %} {{ action.target }} {% endif %}
+            </td>
           </tr>
         {% endfor %}
         </tbody>

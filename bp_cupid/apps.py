@@ -7,4 +7,5 @@ class BPCupidConfig(AppConfig):
 
     def ready(self):
         registry.register(apps.get_model('auth.user'))
+        registry.register(apps.get_model('bp_cupid.Student'))
         from bp_cupid import signals

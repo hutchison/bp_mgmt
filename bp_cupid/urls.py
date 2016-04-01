@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^pdf/praxis/(?P<praxis_id>\d+)/$', views.pdf.praxis, name='pdf_praxis'),
     url(r'^pdf/praxen/$', views.pdf.praxen, name='pdf_praxen'),
     url(r'^excel/platzuebersicht/(?P<verwzr_id>\d+)$', views.excel.platzuebersicht, name='excel/platzuebersicht'),
+    url(r'^evaluation/$', views.EvaluationList.as_view(), name='evaluation_uebersicht'),
+    url(r'^evaluation/(?P<mat_nr>\d+)/$', views.EvaluationDetail.as_view(), name='evaluation'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

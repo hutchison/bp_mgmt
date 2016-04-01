@@ -1,0 +1,551 @@
+{% extends "bp_cupid/base.html" %}
+{% load l10n %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-10 col-lg-10">
+      {% if form.errors %}
+      <div class="row">
+        <div class="col-sm-8 col-md-8 col-lg-8 col-md-offset-3 col-lg-offset-3 bg-danger">
+        <h4>Folgende Fehler sind aufgetreten:</h4>
+        {% for field in form %}
+          <dl>
+          {% if field.errors %}
+          <dt>{{ field.label }}</dt>
+          {% for error in field.errors %}
+          <dd>{{ error }}</dd>
+          {% endfor %}
+          {% endif %}
+          </dl>
+        {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <form class="form-horizontal" method="post">
+        {% csrf_token %}
+
+        {{ form.eval_user.as_hidden }}
+        {{ form.platz.as_hidden }}
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">aktuelles Datum</label>
+          <div class="col-sm-9">
+            <p class="form-control-static">{{ akt_datum|date:"j. F Y" }}</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Student</label>
+          <div class="col-sm-9">
+            <p class="form-control-static">
+              {{ platz.student }}
+            </p>
+            {% if platz.student.telefonnummer %}
+            <p>
+              <a href="tel:{{ platz.student.telefonnummer }}"><i class="fa fa-phone"></i> {{ platz.student.telefonnummer }}</a>
+            </p>
+            {% endif %}
+            {% if platz.student.email %}
+            <p>
+              <a href="mailto:{{ platz.student.email }}"><i class="fa fa-envelope-o"></i> {{ platz.student.email }}</a>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Praxis</label>
+          <div class="col-sm-9">
+            <p class="form-control-static">
+              {{ platz.praxis.anrede }} {{ platz.praxis.vorname }} {{ platz.praxis.name }}, {{ platz.praxis.plz }} {{ platz.praxis.ort }}
+            </p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Zeitraum</label>
+          <div class="col-sm-9">
+            <p class="form-control-static">{{ platz.zeitraum.anfang }} – {{ platz.zeitraum.ende }}</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-3 control-label">Was war …?</label>
+          <div class="col-sm-4">
+            <p class="form-control-static">positiv</p>
+            {{ form.positiv }}
+          </div>
+          <div class="col-sm-4">
+            <p class="form-control-static">negativ</p>
+            {{ form.negativ }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.note_lehrarztfaehigkeit.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.note_lehrarztfaehigkeit.label }}
+          </label>
+          <div class="col-sm-3">
+            {{ form.note_lehrarztfaehigkeit }}
+            <span class="help-block">{{ form.note_lehrarztfaehigkeit.help_text }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.zufriedenheit.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.zufriedenheit.label }}
+          </label>
+          <div class="col-sm-3">
+            {{ form.zufriedenheit }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.note_praktikum.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.note_praktikum.label }}
+          </label>
+          <div class="col-sm-3">
+            {{ form.note_praktikum }}
+            <span class="help-block">{{ form.note_praktikum.help_text }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.sonstige_anmerkungen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.sonstige_anmerkungen.label }}
+          </label>
+          <div class="col-sm-8">
+            {{ form.sonstige_anmerkungen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.erfahrungen_logbuch.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.erfahrungen_logbuch.label }}
+          </label>
+          <div class="col-sm-8">
+            {{ form.erfahrungen_logbuch }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.entsprechung_fragebogen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.entsprechung_fragebogen.label }}
+          </label>
+          <div class="col-sm-8">
+            <span class="help-block">{{ form.entsprechung_fragebogen.help_text }}</span>
+            {{ form.entsprechung_fragebogen }}
+          </div>
+        </div>
+
+        <h3>Typische & relevante Untersuchungstechniken</h3>
+
+        <div class="form-group">
+          <label for="{{ form.abhoeren_auskultation.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.abhoeren_auskultation.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.abhoeren_auskultation }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_abhoeren_auskultation }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.ohr_untersuchen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.ohr_untersuchen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.ohr_untersuchen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_ohr_untersuchen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.reflexe_abklopfen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.reflexe_abklopfen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.reflexe_abklopfen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_reflexe_abklopfen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.bauch_abtasten.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.bauch_abtasten.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.bauch_abtasten }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_bauch_abtasten }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.blutdruck_messen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.blutdruck_messen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.blutdruck_messen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_blutdruck_messen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.blut_abnehmen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.blut_abnehmen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.blut_abnehmen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_blut_abnehmen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.blutzucker_messen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.blutzucker_messen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.blutzucker_messen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_blutzucker_messen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.ekg_schreiben.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.ekg_schreiben.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.ekg_schreiben }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_ekg_schreiben }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.ekg_interpretieren.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.ekg_interpretieren.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.ekg_interpretieren }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_ekg_interpretieren }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.laborbefunde_interpretieren.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.laborbefunde_interpretieren.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.laborbefunde_interpretieren }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_laborbefunde_interpretieren }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.sonstige_untersuchungstechniken.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.sonstige_untersuchungstechniken.label }}
+          </label>
+          <div class="col-sm-8">
+            {{ form.sonstige_untersuchungstechniken }}
+          </div>
+        </div>
+
+        <h3>Besondere Situationen</h3>
+
+        <div class="form-group">
+          <label for="{{ form.impfen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.impfen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.impfen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_impfen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.spritzen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.spritzen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.spritzen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_spritzen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.gesundheits_check_up.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.gesundheits_check_up.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.gesundheits_check_up }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_gesundheits_check_up }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.hausbesuche_pflegeheim.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.hausbesuche_pflegeheim.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.hausbesuche_pflegeheim }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_hausbesuche_pflegeheim }}
+          </div>
+        </div>
+
+        <h3>Praxisorganisation</h3>
+
+        <div class="form-group">
+          <label for="{{ form.vorbereitung_auf_studenten.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.vorbereitung_auf_studenten.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.vorbereitung_auf_studenten }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_vorbereitung_auf_studenten }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.einbindung_praxisalltag.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.einbindung_praxisalltag.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.einbindung_praxisalltag }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_einbindung_praxisalltag }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.praxisklima.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.praxisklima.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.praxisklima }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_praxisklima }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.eigener_untersuchungsraum.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.eigener_untersuchungsraum.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.eigener_untersuchungsraum }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_eigener_untersuchungsraum }}
+          </div>
+        </div>
+
+        <h3>Möglichkeiten zur Partizipation/Eigenständigkeit</h3>
+
+        <div class="form-group">
+          <label for="{{ form.teilnehmen_an_sprechstunde.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.teilnehmen_an_sprechstunde.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.teilnehmen_an_sprechstunde }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_teilnehmen_an_sprechstunde }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.aktiv_mituntersucht.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.aktiv_mituntersucht.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.aktiv_mituntersucht }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_aktiv_mituntersucht }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.selbststaendige_untersuchung.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.selbststaendige_untersuchung.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.selbststaendige_untersuchung }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_selbststaendige_untersuchung }}
+          </div>
+        </div>
+
+        <h3>Didaktik</h3>
+
+        <div class="form-group">
+          <label for="{{ form.zeit_raum_fuer_fragen.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.zeit_raum_fuer_fragen.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.zeit_raum_fuer_fragen }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_zeit_raum_fuer_fragen }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.von_sich_aus_erklaert.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.von_sich_aus_erklaert.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.von_sich_aus_erklaert }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_von_sich_aus_erklaert }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.fragen_an_studenten.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.fragen_an_studenten.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.fragen_an_studenten }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_fragen_an_studenten }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.vor_nachbesprechung_der_patienten.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.vor_nachbesprechung_der_patienten.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.vor_nachbesprechung_der_patienten }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_vor_nachbesprechung_der_patienten }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.motivation.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.motivation.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.motivation }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_motivation }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.lerneffekt.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.lerneffekt.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.lerneffekt }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_lerneffekt }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.feedback_vom_arzt.id_for_label }}" class="col-sm-3 control-label">
+            {{ form.feedback_vom_arzt.label }}
+          </label>
+          <div class="col-sm-2">
+            {{ form.feedback_vom_arzt }}
+          </div>
+          <div class="col-sm-6">
+            {{ form.kommentar_feedback_vom_arzt }}
+          </div>
+        </div>
+
+        <hr></hr>
+
+        <div class="form-group">
+          <label for="{{ form.veraenderungswuensche.id_for_label }}" class="col-sm-2 control-label">
+            {{ form.veraenderungswuensche.label }}
+          </label>
+          <div class="col-sm-9">
+            {{ form.veraenderungswuensche }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Sonstiges</label>
+          <div class="col-sm-3">
+            <p class="form-control-static">positiv</p>
+            {{ form.sonstiges_positiv }}
+          </div>
+          <div class="col-sm-3">
+            <p class="form-control-static">negativ</p>
+            {{ form.sonstiges_negativ }}
+          </div>
+          <div class="col-sm-3">
+            <p class="form-control-static">neutral</p>
+            {{ form.sonstiges_neutral }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.gesamturteil.id_for_label }}" class="col-sm-2 control-label">
+            {{ form.gesamturteil.label }}
+          </label>
+          <div class="col-sm-9">
+            {{ form.gesamturteil }}
+            <div class="help-block">
+              <ul>
+                <li>prägnante Merkmale, häufig Genanntes</li>
+                <li>Besonderheiten, Spezialisierungen</li>
+                <li>zeitlicher Verlauf</li>
+                <li>Widersprüchliches</li>
+                <li>etc.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-9 text-right">
+            <button type="submit" class="btn btn-primary">Speichern</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

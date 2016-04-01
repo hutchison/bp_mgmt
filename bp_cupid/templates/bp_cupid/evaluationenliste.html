@@ -1,0 +1,48 @@
+{% extends "bp_cupid/base.html" %}
+{% load l10n %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12 col-lg-12">
+      {% if plaetze %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="col-md-2 col-lg-2">Name</th>
+            <th class="col-md-3 col-lg-3">Praxis</th>
+            <th class="col-md-2 col-lg-2">Zeitraum</th>
+            <th></th>
+            <th class="col-md-3 col-lg-3"></th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for p in plaetze %}
+          <tr>
+            <td>{{ p.student.vorname }} {{ p.student.name }} ({{ p.student.mat_nr }})</td>
+            <td>{{ p.praxis.vorname }} {{ p.praxis.name }}, {{ p.praxis.ort }}</td>
+            <td>{{ p.zeitraum.anfang }} – {{ p.zeitraum.ende }}</td>
+            {% if p.evaluation %}
+            <td>
+              <a class="btn btn-warning btn-sm" href="{% url 'bp_cupid:evaluation' p.student.mat_nr %}" role="button">bearbeiten</a>
+            </td>
+            <td>
+              Evaluiert von {{ p.evaluation.eval_user.get_full_name }} am {{ p.evaluation.datum }}.
+            </td>
+            {% else %}
+            <td>
+              <a class="btn btn-primary btn-sm" href="{% url 'bp_cupid:evaluation' p.student.mat_nr %}" role="button">evaluieren</a>
+            </td>
+            <td></td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p>Keine Plätze vorhanden.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}
