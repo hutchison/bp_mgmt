@@ -9,7 +9,7 @@ from .verteilen import (
     zufaellig_verteilen,
     gezielt_verteilen,
 )
-from .studenten_zulassen import studenten_zulassen
+from .StudentenZulassen import StudentenZulassen
 from .Bloecke import Bloecke
 from .email import email, preview_email
 from .zusatzinfo import zusatzinfo
