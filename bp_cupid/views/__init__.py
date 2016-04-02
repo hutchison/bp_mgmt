@@ -2,8 +2,7 @@ from bp_cupid.views.index import index
 from bp_cupid.views.Status import Status
 from bp_cupid.views.gewichte import gewichte
 from .Student import StudentDetail, StudentList
-from bp_cupid.views.Praxen import Praxen
-from bp_cupid.views.praxis import praxis
+from .Praxis import PraxisDetail, PraxisList
 from bp_cupid.views.Plaetze import Plaetze
 from bp_cupid.views.Platzuebersicht import Platzuebersicht
 from .verteilen import (
