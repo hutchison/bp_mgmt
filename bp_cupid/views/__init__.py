@@ -3,7 +3,7 @@ from bp_cupid.views.Status import Status
 from bp_cupid.views.gewichte import gewichte
 from bp_cupid.views.Studenten import Studenten
 from bp_cupid.views.student import student
-from bp_cupid.views.praxen import praxen
+from bp_cupid.views.Praxen import Praxen
 from bp_cupid.views.praxis import praxis
 from bp_cupid.views.plaetze import plaetze
 from bp_cupid.views.platzuebersicht import platzuebersicht
