@@ -10,6 +10,8 @@ from ..models import Platz, Evaluation
 from ..forms import EvaluationForm
 
 class EvaluationList(View):
+    template_name = 'bp_cupid/evaluationenliste.html'
+
     @method_decorator(login_required)
     @method_decorator(user_passes_test(lambda u: u.is_staff))
     def get(self, request):
@@ -33,7 +35,7 @@ class EvaluationList(View):
             'plaetze': plaetze,
         }
 
-        return render(request, 'bp_cupid/evaluationenliste.html', context)
+        return render(request, self.template_name, context)
 
 
 class EvaluationDetail(View):
