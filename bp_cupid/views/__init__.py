@@ -11,7 +11,7 @@ from .verteilen import (
 )
 from .StudentenZulassen import StudentenZulassen
 from .Bloecke import Bloecke
-from .email import email, preview_email
+from .Email import Email, EmailPreview
 from .zusatzinfo import zusatzinfo
 from .pdf import praxis as pdf_praxis
 from .pdf import praxen as pdf_praxen
