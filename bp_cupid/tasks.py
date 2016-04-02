@@ -1,7 +1,7 @@
 from celery import shared_task
 from django.core.cache import cache
 
-from bp_cupid.models import (
+from .models import (
     Gewicht,
     Praxis,
     Block,

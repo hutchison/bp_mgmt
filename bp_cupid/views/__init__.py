@@ -5,10 +5,7 @@ from .Student import StudentDetail, StudentList
 from .Praxis import PraxisDetail, PraxisList
 from .Plaetze import Plaetze
 from .Platzuebersicht import Platzuebersicht
-from .verteilen import (
-    zufaellig_verteilen,
-    gezielt_verteilen,
-)
+from .Verteilen import ZufaelligVerteilen, GezieltVerteilen
 from .StudentenZulassen import StudentenZulassen
 from .Bloecke import Bloecke
 from .Email import Email, EmailPreview
