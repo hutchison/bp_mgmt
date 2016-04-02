@@ -1,5 +1,5 @@
 from bp_cupid.views.index import index
-from bp_cupid.views.status import status
+from bp_cupid.views.Status import Status
 from bp_cupid.views.gewichte import gewichte
 from bp_cupid.views.studenten import studenten
 from bp_cupid.views.student import student

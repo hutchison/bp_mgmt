@@ -8,7 +8,7 @@ from . import api
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(regex=r'^api/', view=include(api.urls, namespace='api')),
-    url(r'^status/$', views.status, name='status'),
+    url(r'^status/$', views.Status.as_view(), name='status'),
     url(r'^einstellungen/$', views.einstellungen, name='einstellungen'),
     url(r'^gewichte/$', views.gewichte, name='gewichte'),
     url(r'^studenten/$', views.studenten, name='studenten'),
