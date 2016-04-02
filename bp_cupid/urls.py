@@ -6,7 +6,7 @@ from . import views
 from . import api
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.Index.as_view(), name='index'),
     url(regex=r'^api/', view=include(api.urls, namespace='api')),
     url(r'^status/$', views.Status.as_view(), name='status'),
     url(r'^einstellungen/$', views.einstellungen, name='einstellungen'),

@@ -1,4 +1,4 @@
-from .index import index
+from .Index import Index
 from .Status import Status
 from .gewichte import gewichte
 from .Student import StudentDetail, StudentList
