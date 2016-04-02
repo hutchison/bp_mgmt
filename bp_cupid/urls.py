@@ -10,7 +10,7 @@ urlpatterns = [
     url(regex=r'^api/', view=include(api.urls, namespace='api')),
     url(r'^status/$', views.Status.as_view(), name='status'),
     url(r'^einstellungen/$', views.einstellungen, name='einstellungen'),
-    url(r'^gewichte/$', views.gewichte, name='gewichte'),
+    url(r'^gewichte/$', views.Gewichte.as_view(), name='gewichte'),
     url(r'^studenten/$', views.StudentList.as_view(), name='studenten'),
     url(r'^student/(?P<mat_nr>\d+)/$', views.StudentDetail.as_view(), name='student'),
     url(r'^praxen/$', views.PraxisList.as_view(), name='praxen'),

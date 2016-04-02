@@ -1,6 +1,6 @@
 from .Index import Index
 from .Status import Status
-from .gewichte import gewichte
+from .Gewichte import Gewichte
 from .Student import StudentDetail, StudentList
 from .Praxis import PraxisDetail, PraxisList
 from .Plaetze import Plaetze
