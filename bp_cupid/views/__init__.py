@@ -12,7 +12,7 @@ from .verteilen import (
     gezielt_verteilen,
 )
 from bp_cupid.views.studenten_zulassen import studenten_zulassen
-from bp_cupid.views.bloecke import bloecke
+from bp_cupid.views.Bloecke import Bloecke
 from bp_cupid.views.email import email, preview_email
 from bp_cupid.views.zusatzinfo import zusatzinfo
 from bp_cupid.views.pdf import praxis as pdf_praxis

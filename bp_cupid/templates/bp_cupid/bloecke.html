@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container-fluid">
   <div class="row">
+    {% if bloecke %}
     <div class="col-md-12 col-lg-12">
       <table class="table">
         <thead>
@@ -27,6 +28,9 @@
         </tbody>
       </table>
     </div>
+    {% else %}
+    <p>Bisher keine Blöcke vorhanden.</p>
+    {% endif %}
   </div>
 </div>
 {% endblock %}
