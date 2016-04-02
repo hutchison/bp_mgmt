@@ -11,7 +11,7 @@ from ..models import (
     Zeitraum,
     Platz,
 )
-from .platzuebersicht import platztabelle
+from .Platzuebersicht import platztabelle
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)

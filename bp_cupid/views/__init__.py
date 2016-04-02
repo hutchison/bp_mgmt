@@ -6,7 +6,7 @@ from bp_cupid.views.student import student
 from bp_cupid.views.Praxen import Praxen
 from bp_cupid.views.praxis import praxis
 from bp_cupid.views.Plaetze import Plaetze
-from bp_cupid.views.platzuebersicht import platzuebersicht
+from bp_cupid.views.Platzuebersicht import Platzuebersicht
 from .verteilen import (
     zufaellig_verteilen,
     gezielt_verteilen,

@@ -1,36 +1,44 @@
 from django.shortcuts import render
+from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Count
-from bp_cupid.models import (
+from django.views.generic import View
+
+from collections import OrderedDict
+
+from ..models import (
     Praxis,
     Zeitraum,
     Platzbegrenzung,
 )
-from collections import OrderedDict
 
 
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def platzuebersicht(request):
-    akt_verw_zr = request.user.mitarbeiter.akt_verw_zeitraum
-    bloecke = akt_verw_zr.bloecke.order_by('name').prefetch_related(
-        'zeitraeume'
-    )
-    zeitraeume = Zeitraum.objects.filter(
-        block__in=bloecke
-    ).order_by(
-        'anfang'
-    )
+class Platzuebersicht(View):
+    template_name = 'bp_cupid/platzuebersicht.html'
 
-    context = {
-        'akt_verw_zr': akt_verw_zr,
-        'bloecke': bloecke,
-        'zeitraeume': zeitraeume,
-        'kapazitaeten': kapazitaeten(akt_verw_zr),
-        'platztabelle': platztabelle(zeitraeume),
-    }
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def get(self, request):
+        akt_verw_zr = request.user.mitarbeiter.akt_verw_zeitraum
+        bloecke = akt_verw_zr.bloecke.order_by('name').prefetch_related(
+            'zeitraeume'
+        )
+        zeitraeume = Zeitraum.objects.filter(
+            block__in=bloecke
+        ).order_by(
+            'anfang'
+        )
 
-    return render(request, 'bp_cupid/platzuebersicht.html', context)
+        context = {
+            'akt_verw_zr': akt_verw_zr,
+            'bloecke': bloecke,
+            'zeitraeume': zeitraeume,
+            'kapazitaeten': kapazitaeten(akt_verw_zr),
+            'platztabelle': platztabelle(zeitraeume),
+        }
+
+        return render(request, self.template_name, context)
+
 
 def kapazitaeten(verwaltungszeitraum):
     kap = []
@@ -57,6 +65,7 @@ def kapazitaeten(verwaltungszeitraum):
         kap.append(k)
 
     return kap
+
 
 def platztabelle(zeitraeume):
     """
@@ -87,10 +96,12 @@ def platztabelle(zeitraeume):
         platztabelle[praxis] = list(
             praxis.plaetze.filter(zeitraum__in=zeitraeume)
         )
+
         direkt_belegte_zrs = [
             platz.zeitraum
             for platz in praxis.plaetze.filter(zeitraum__in=zeitraeume)
         ]
+
         for i, zeitraum in enumerate(zeitraeume):
             if zeitraum in direkt_belegte_zrs:
                 continue
@@ -102,12 +113,14 @@ def platztabelle(zeitraeume):
         akt_anzahl_plaetze = praxis.plaetze.filter(
             zeitraum__block__verwaltungszeitraum=akt_verw_zr,
         ).count()
+
         try:
             platzgrenze = praxis.platzbegrenzung.get(
                 verwaltungszeitraum=akt_verw_zr
             ).anzahl
         except Platzbegrenzung.DoesNotExist:
             platzgrenze = None
+
         platztabelle[praxis].append(
             (akt_anzahl_plaetze, platzgrenze)
         )
