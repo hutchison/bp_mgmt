@@ -9,7 +9,7 @@ from .Verteilen import ZufaelligVerteilen, GezieltVerteilen
 from .StudentenZulassen import StudentenZulassen
 from .Bloecke import Bloecke
 from .Email import Email, EmailPreview
-from .zusatzinfo import zusatzinfo
+from .Zusatzinfo import Zusatzinfo
 from .pdf import praxis as pdf_praxis
 from .pdf import praxen as pdf_praxen
 from . import excel
