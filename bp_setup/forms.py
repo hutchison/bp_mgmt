@@ -1,15 +1,16 @@
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.forms import ValidationError
 from django_auth_ldap3.backends import LDAPBackend
 from django_auth_ldap3.conf import settings
 
-from django.contrib.auth.models import User
 from bp_cupid.models import (
     Student,
 )
 
 import logging
 logger = logging.getLogger(__name__)
+
 
 class BPAuthenticationForm(AuthenticationForm):
     """

@@ -1,59 +1,66 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from bp_cupid.models import (
-    Praxis,
-    Student,
-    Landkreis,
-)
-from actstream import action
+from django.utils.decorators import method_decorator
+from django.views.generic import View
 
+from actstream import action
 import logging
 logger = logging.getLogger(__name__)
 
-
-@login_required
-@user_passes_test(lambda u: Student.objects.filter(user=u).exists())
-def index(request):
-    student = Student.objects.get(user=request.user)
-
-    context = {
-        'student': student,
-    }
-
-    return render(request, 'bp_setup/index.html', context)
+from bp_cupid.models import (
+    Landkreis,
+    Praxis,
+    Student,
+)
 
 
-@login_required
-def fragebogen(request):
-    besondere_la_praxen_ids = []
-    besondere_la_praxen = Praxis.objects.filter(
-        id__in=besondere_la_praxen_ids,
-    )
+class Index(View):
+    template_name = 'bp_setup/index.html'
 
-    landkreise = Landkreis.objects.order_by('plz_von')
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: Student.objects.filter(user=u).exists()))
+    def get(self, request):
+        student = Student.objects.get(user=request.user)
 
-    try:
-        student = request.user.student
-    except Student.DoesNotExist:
-        student = None
+        context = {
+            'student': student,
+        }
 
-    context = {
-        'besondere_la_praxen': besondere_la_praxen,
-        'student': student,
-        'landkreise': landkreise,
-    }
+        return render(request, self.template_name, context)
 
 
-    if student and student.hat_fragebogen_ausgefuellt:
-        messages.add_message(
-            request,
-            messages.INFO,
-            'Clever! Aber leider hast du den Fragebogen schon ausgefüllt.',
-        )
-        return redirect('bp_setup:index')
+class Fragebogen(View):
+    template_name = 'bp_setup/fragebogen.html'
 
-    if request.method == 'POST':
+    @method_decorator(login_required)
+    def get(self, request):
+        """
+        Zeigt den Fragebogen für Studenten an.
+        """
+        context = self.common_context(request)
+        student = context['student']
+
+        if student and student.hat_fragebogen_ausgefuellt:
+            messages.add_message(
+                request,
+                messages.INFO,
+                'Clever! Aber leider hast du den Fragebogen schon ausgefüllt.',
+            )
+            return redirect('bp_setup:index')
+        else:
+            return render(request, self.template_name, context)
+
+
+    @method_decorator(login_required)
+    def post(self, request):
+        """
+        Speichert die Daten des Fragebogens ab.
+        """
+
+        context = self.common_context(request)
+        student = context['student']
+
         # erst aufräumen:
         for praxis in student.bevorzugte_praxen.all():
             student.bevorzugte_praxen.remove(praxis)
@@ -123,4 +130,25 @@ def fragebogen(request):
 
         return redirect('bp_setup:index')
 
-    return render(request, 'bp_setup/fragebogen.html', context)
+
+    @staticmethod
+    def common_context(request):
+        besondere_la_praxen_ids = [10, 46, 59]
+        besondere_la_praxen = Praxis.objects.filter(
+            id__in=besondere_la_praxen_ids,
+        )
+
+        landkreise = Landkreis.objects.order_by('plz_von')
+
+        try:
+            student = request.user.student
+        except Student.DoesNotExist:
+            student = None
+
+        context = {
+            'besondere_la_praxen': besondere_la_praxen,
+            'student': student,
+            'landkreise': landkreise,
+        }
+
+        return context
