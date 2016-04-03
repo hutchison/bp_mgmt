@@ -1,5 +1,5 @@
-from django.conf.urls import include, url
 from django.conf import settings
+from django.conf.urls import include, url
 from django.conf.urls.static import static
 
 from . import views
@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^zusatzinfo/$', views.Zusatzinfo.as_view(), name='zusatzinfo'),
     url(r'^pdf/praxis/(?P<praxis_id>\d+)/$', views.PDFPraxis.as_view(), name='pdf_praxis'),
     url(r'^pdf/praxen/$', views.PDFPraxen.as_view(), name='pdf_praxen'),
-    url(r'^excel/platzuebersicht/(?P<verwzr_id>\d+)$', views.excel.platzuebersicht, name='excel/platzuebersicht'),
+    url(r'^excel/platzuebersicht/(?P<verwzr_id>\d+)$', views.ExcelPlatzuebersicht.as_view(), name='excel/platzuebersicht'),
     url(r'^evaluation/$', views.EvaluationList.as_view(), name='evaluation_uebersicht'),
     url(r'^evaluation/(?P<mat_nr>\d+)/$', views.EvaluationDetail.as_view(), name='evaluation'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

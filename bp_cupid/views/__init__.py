@@ -11,6 +11,6 @@ from .Bloecke import Bloecke
 from .Email import Email, EmailPreview
 from .Zusatzinfo import Zusatzinfo
 from .pdf import PDFPraxen, PDFPraxis
-from . import excel
+from .excel import ExcelPlatzuebersicht
 from .Einstellungen import Einstellungen
 from .Evaluation import EvaluationList, EvaluationDetail
