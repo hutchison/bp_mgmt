@@ -1,40 +1,42 @@
 from django.contrib import admin
-from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+from django.shortcuts import redirect
 from django.utils.http import urlencode
 
 from simple_history.admin import SimpleHistoryAdmin
 
-from bp_cupid.models import (
-    Landkreis,
-    Verwaltungszeitraum,
-    Student,
+from .models import (
     Block,
-    Zeitraum,
-    Praxis,
+    Evaluation,
     Gewicht,
+    Landkreis,
+    Mitarbeiter,
     Platz,
     Platzbegrenzung,
-    Mitarbeiter,
+    Praxis,
+    Student,
+    Verwaltungszeitraum,
     Vorlage,
+    Zeitraum,
     ZusatzinfoPraxis,
-    Evaluation,
 )
 from .forms import VorlagenForm
 
+
+@admin.register(Landkreis)
 class LandkreisAdmin(admin.ModelAdmin):
     list_display = ('name', 'plz_von', 'plz_bis', 'orte')
     list_display_links = ('name',)
     ordering = ('plz_von',)
 
-admin.site.register(Landkreis, LandkreisAdmin)
 
+@admin.register(Verwaltungszeitraum)
 class VerwaltungszeitraumAdmin(admin.ModelAdmin):
     list_display = ('name', 'anfang', 'ende')
     ordering = ('anfang', )
 
-admin.site.register(Verwaltungszeitraum, VerwaltungszeitraumAdmin)
 
+@admin.register(Platz)
 class PlatzAdmin(SimpleHistoryAdmin):
     list_display = ('student', 'praxis', 'zeitraum', 'manuell', 'kommentar')
     ordering = ('student__name', )
@@ -64,8 +66,8 @@ class PlatzAdmin(SimpleHistoryAdmin):
             )
     search_fields = ['student__vorname', 'student__name', 'student__mat_nr']
 
-admin.site.register(Platz, PlatzAdmin)
 
+@admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
     list_display = (
         'mat_nr',
@@ -92,21 +94,22 @@ class StudentAdmin(admin.ModelAdmin):
     )
     search_fields = ['vorname', 'name', 'mat_nr']
 
-admin.site.register(Student, StudentAdmin)
 
+@admin.register(Zeitraum)
 class ZeitraumAdmin(admin.ModelAdmin):
     list_display = ('block', 'anfang', 'ende')
     list_display_links = ('anfang',)
     readonly_fields = ('ueberlappende',)
     ordering = ('anfang',)
 
-admin.site.register(Zeitraum, ZeitraumAdmin)
 
 class ZeitraumInline(admin.TabularInline):
     model = Zeitraum
     readonly_fields = ('ueberlappende',)
     extra = 1
 
+
+@admin.register(Block)
 class BlockAdmin(admin.ModelAdmin):
     list_display = ('name', 'verwaltungszeitraum', 'zeiten')
     ordering = ('name',)
@@ -114,12 +117,13 @@ class BlockAdmin(admin.ModelAdmin):
         ZeitraumInline,
     ]
 
-admin.site.register(Block, BlockAdmin)
 
 class PlatzbegrenzungInline(admin.TabularInline):
     model = Platzbegrenzung
     extra = 1
 
+
+@admin.register(Praxis)
 class PraxisAdmin(admin.ModelAdmin):
     list_display = (
         'anrede',
@@ -153,20 +157,19 @@ class PraxisAdmin(admin.ModelAdmin):
         PlatzbegrenzungInline,
     ]
 
-admin.site.register(Praxis, PraxisAdmin)
 
+@admin.register(Gewicht)
 class GewichtAdmin(admin.ModelAdmin):
     list_display = ('student', 'praxis', 'wert', 'umgebrochener_kommentar')
     ordering = ('student', 'praxis')
     search_fields = ['student__vorname', 'student__name', 'student__mat_nr']
 
-admin.site.register(Gewicht, GewichtAdmin)
 
+@admin.register(Mitarbeiter)
 class MitarbeiterAdmin(admin.ModelAdmin):
     list_display = ('user', 'akt_verw_zeitraum')
     list_editable = ('akt_verw_zeitraum', )
 
-admin.site.register(Mitarbeiter, MitarbeiterAdmin)
 
 @admin.register(Vorlage)
 class VorlagenAdmin(admin.ModelAdmin):
@@ -175,12 +178,14 @@ class VorlagenAdmin(admin.ModelAdmin):
     form = VorlagenForm
     search_fields = ['token', 'text']
 
+
 @admin.register(ZusatzinfoPraxis)
 class ZusatzinfoPraxisAdmin(admin.ModelAdmin):
     list_display = ('praxis', 'verwaltungszeitraum', 'text')
     list_display_links = ('praxis',)
     ordering = ('-verwaltungszeitraum__anfang', 'praxis')
     search_fields = ['praxis', 'text']
+
 
 @admin.register(Evaluation)
 class EvaluationAdmin(admin.ModelAdmin):
