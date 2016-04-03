@@ -1,61 +1,74 @@
-from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django.utils.http import urlquote
+from django.views.generic import View
 
-from reportlab.platypus.flowables import PageBreak
+from io import BytesIO
 from reportlab.lib.pagesizes import A4
 from reportlab.platypus import SimpleDocTemplate
-from io import BytesIO
+from reportlab.platypus.flowables import PageBreak
 
-from bp_cupid.models import (
-    Praxis,
-)
+from ..models import Praxis
 
 
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def praxis(request, praxis_id):
-    praxis = get_object_or_404(Praxis, id=praxis_id)
-    akt_verw_zr = request.user.mitarbeiter.akt_verw_zeitraum
-    pdf = praxis.pdf(verwaltungszeitraum=akt_verw_zr)
+class PDFPraxis(View):
 
-    dateiname = 'Praxis {} {}.pdf'.format(praxis.vorname, praxis.name)
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = """attachment;\
-        filename="{0}";\
-        filename*=UTF-8''{0};\
-    """.format(urlquote(dateiname))
-    response.write(pdf)
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def get(self, request, praxis_id):
+        """
+        Gibt eine PDF-Datei mit einer Übersicht der verteilten Plätze für die
+        Praxis zurück.
+        """
+        praxis = get_object_or_404(Praxis, id=praxis_id)
+        akt_verw_zr = request.user.mitarbeiter.akt_verw_zeitraum
+        pdf = praxis.pdf(verwaltungszeitraum=akt_verw_zr)
 
-    return response
+        dateiname = 'Praxis {} {}.pdf'.format(praxis.vorname, praxis.name)
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = """attachment;\
+            filename="{0}";\
+            filename*=UTF-8''{0};\
+        """.format(urlquote(dateiname))
+        response.write(pdf)
+
+        return response
 
 
-@login_required
-@user_passes_test(lambda u: u.is_staff)
-def praxen(request):
-    akt_verw_zr = request.user.mitarbeiter.akt_verw_zeitraum
-    elements = []
+class PDFPraxen(View):
 
-    for praxis in Praxis.objects.order_by('name'):
-        hat_plaetze = praxis.plaetze.filter(
-            zeitraum__block__verwaltungszeitraum=akt_verw_zr
-        ).exists()
-        if not hat_plaetze:
-            continue
+    @method_decorator(login_required)
+    @method_decorator(user_passes_test(lambda u: u.is_staff))
+    def get(self, request):
+        """
+        Gibt eine PDF-Datei mit einer Übersicht der verteilten Plätze für alle
+        Praxen zurück.
+        """
+        akt_verw_zr = request.user.mitarbeiter.akt_verw_zeitraum
+        elements = []
 
-        elements.extend(
-            praxis.pdf_elemente(verwaltungszeitraum=akt_verw_zr)
-        )
-        elements.append(PageBreak())
+        for praxis in Praxis.objects.order_by('name'):
+            hat_plaetze = praxis.plaetze.filter(
+                zeitraum__block__verwaltungszeitraum=akt_verw_zr
+            ).exists()
 
-    with BytesIO() as buf:
-        doc = SimpleDocTemplate(buf, pagesize=A4)
-        doc.build(elements)
-        pdf = buf.getvalue()
+            if not hat_plaetze:
+                continue
 
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="Praxen.pdf"'
-    response.write(pdf)
+            elements.extend(
+                praxis.pdf_elemente(verwaltungszeitraum=akt_verw_zr)
+            )
+            elements.append(PageBreak())
 
-    return response
+        with BytesIO() as buf:
+            doc = SimpleDocTemplate(buf, pagesize=A4)
+            doc.build(elements)
+            pdf = buf.getvalue()
+
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="Praxen.pdf"'
+        response.write(pdf)
+
+        return response

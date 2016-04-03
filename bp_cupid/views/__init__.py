@@ -10,8 +10,7 @@ from .StudentenZulassen import StudentenZulassen
 from .Bloecke import Bloecke
 from .Email import Email, EmailPreview
 from .Zusatzinfo import Zusatzinfo
-from .pdf import praxis as pdf_praxis
-from .pdf import praxen as pdf_praxen
+from .pdf import PDFPraxen, PDFPraxis
 from . import excel
 from .Einstellungen import Einstellungen
 from .Evaluation import EvaluationList, EvaluationDetail
