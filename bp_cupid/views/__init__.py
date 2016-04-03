@@ -13,5 +13,5 @@ from .zusatzinfo import zusatzinfo
 from .pdf import praxis as pdf_praxis
 from .pdf import praxen as pdf_praxen
 from . import excel
-from .einstellungen import einstellungen
+from .Einstellungen import Einstellungen
 from .Evaluation import EvaluationList, EvaluationDetail
