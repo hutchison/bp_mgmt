@@ -262,7 +262,7 @@ function validiere_Fragebogen() {
           <div class="checkbox">
             <label>
               <input type="checkbox" name="landkreis" id="landkreis{{ landkreis.id }}" value="{{ landkreis.id }}">
-              {{ landkreis.plz_von }} – {{ landkreis.plz_bis }} (Praxen in {{ landkreis.orte }})
+              Bereich {{ landkreis.name }} (Praxen in {{ landkreis.orte }})
             </label>
           </div>
           {% endfor %}
