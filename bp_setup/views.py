@@ -113,6 +113,9 @@ class Fragebogen(View):
         sonstiges = request.POST.get('ergaenzungen', '')
         student.sonstiges = sonstiges
 
+        telefonnummer = request.POST.get('telefonnummer', '')
+        student.telefonnummer = telefonnummer
+
         student.hat_fragebogen_ausgefuellt = True
 
         student.save()

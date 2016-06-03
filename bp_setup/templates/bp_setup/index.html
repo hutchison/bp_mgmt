@@ -25,6 +25,12 @@
           <th>E-Mail-Adresse</th>
           <td>{{ student.email }}</td>
         </tr>
+        {% if student.telefonnummer %}
+        <tr>
+          <th>Telefonnummer</th>
+          <td>{{ student.telefonnummer }}</td>
+        </tr>
+        {% endif %}
         <tr>
           <th>Geschlecht</th>
           <td>

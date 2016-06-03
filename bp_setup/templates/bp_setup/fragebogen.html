@@ -47,10 +47,27 @@ function validiere_priv_Unterkunft() {
   return true;
 }
 
+function validiere_Telefonnummer() {
+  var telefonnummern_regex = /^\+?\d{9,15}$/;
+  var telefonnummer = $.trim($("#telefonnummer").val());
+
+  if (telefonnummer) {
+    if (telefonnummern_regex.test(telefonnummer)) {
+      return true;
+    } else {
+      $("#telefonnummernwarnung").toggle(true);
+      return false;
+    }
+  } else {
+    return true;
+  }
+}
+
 function validiere_Fragebogen() {
   var checks = [
     validiere_Landkreise(),
     validiere_priv_Unterkunft(),
+    validiere_Telefonnummer(),
   ];
 
   var i = 0;
@@ -72,7 +89,7 @@ function validiere_Fragebogen() {
     <div class="row">
       <div class="col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
         {% csrf_token %}
-        <h2>Fragebogen an die Studierenden zum Blockpraktikum Allgemeinmedizin <small>WS 2015-16 und SS 2016</small></h2>
+        <h2>Fragebogen an die Studierenden zum Blockpraktikum Allgemeinmedizin <small>WS 2016-17 und SS 2017</small></h2>
         {% if not student %}
         <div class="alert alert-warning">
           Mit Ihrem Account ist kein Student verknüpft.
@@ -320,6 +337,22 @@ function validiere_Fragebogen() {
             Blockpraktikumsplatzes an uns?
           </p>
           <textarea class="form-control" rows="5" name="ergaenzungen" id="ergaenzungen" value=""></textarea>
+        </div>
+        <div class="form-group">
+          <p>
+            Nach dem Blockpraktikum würden wir Sie für die Evaluation gerne
+            kontaktieren. Wenn Sie uns Feedback geben möchten, geben Sie hier
+            Ihre Telefonnummer an:
+          </p>
+          <div class="alert alert-danger" id="telefonnummernwarnung" style="display: none;">
+            Bitte geben Sie eine korrekte Telefonnummer im Format
+            <code>+493814942481</code> an.
+          </div>
+          <div class="row">
+            <div class="col-md-5">
+              <input type="tel" class="form-control" name="telefonnummer" id="telefonnummer">
+            </div>
+          </div>
         </div>
         <p>
           Sie sind nun am Ende des Fragebogens angelangt.
