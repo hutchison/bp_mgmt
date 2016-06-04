@@ -21,6 +21,48 @@
         Das dauert ungefähr eine Minute.
         Versuch’s mal mit <a href="{% url 'bp_cupid:gewichte' %}" class="alert-link">neu laden</a>.
       </div>
+      {% else %}
+      <table class="table table-bordered table-condensed">
+        <caption>
+          Status:
+          {% if anzahl_gewichte_soll == anzahl_gewichte_haben %}
+          <span class="text-success"><i class="fa fa-check" aria-hidden="true"></i> Sieht gut aus!</span>
+          {% else %}
+          <span class="text-danger">
+            <i class="fa fa-times" aria-hidden="true"></i>
+            Da stimmt was nicht. Berechne die Gewichte lieber neu.
+          </span>
+          {% endif %}
+        </caption>
+        <thead>
+          <tr>
+            <th>
+              <abbr title="Die Anzahl der Studenten, die in deinem Verwaltungszeitraum eingetragen sind.">
+                Anzahl Studenten
+              </abbr>
+            </th>
+            <th><abbr title="Die Anzahl aller Praxen.">Anzahl Praxen</abbr></th>
+            <th>
+              <abbr title="Theoretisch sollten 'Anzahl Studenten' &times; 'Anzahl Praxen' Gewichte vorhanden sein.">
+                Gewichte (Soll)
+              </abbr>
+            </th>
+            <th>
+              <abbr title="So viele Gewichte sind tatsächlich in der Datenbank gespeichert.">
+                Gewichte (Haben)
+              </abbr>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ akt_anzahl_studenten }}</td>
+            <td>{{ anzahl_praxen }}</td>
+            <td>{{ anzahl_gewichte_soll }}</td>
+            <td>{{ anzahl_gewichte_haben }}</td>
+          </tr>
+        </tbody>
+      </table>
       {% endif %}
     </div>
   </div>
@@ -33,7 +75,7 @@
             <th colspan="2" rowspan="2" style="text-align: center; vertical-align: middle;">
               <form action="{% url 'bp_cupid:gewichte' %}" method="post" accept-charset="utf-8">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary"{% if laufende_Gewichtsberechnung %} disabled="disabled"{% endif %}>alle Gewichte berechnen</button>
+                <button type="submit" class="btn btn-primary"{% if laufende_Gewichtsberechnung %} disabled="disabled"{% endif %}>alle Gewichte neu berechnen</button>
               </form>
             </th>
             <th colspan="12" style="text-align: center;">Praxis</th>
