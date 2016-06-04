@@ -4,7 +4,12 @@ from django.dispatch import receiver
 from .models import (
     Platz,
     Praxis,
+    Student,
     Zeitraum,
+)
+from .tasks import (
+    berechne_gewichte_von_praxis,
+    berechne_gewichte_von_student,
 )
 
 import logging
@@ -30,6 +35,18 @@ m2m_changed.connect(
     aktualisiere_zeitraeume_nach_praxisspeicherung,
     sender=Praxis.zeitraeume.through,
 )
+
+
+@receiver(post_save, sender=Praxis)
+def aktualisiere_gewichte_nach_praxisspeicherung(sender, instance, **kwargs):
+    logger.debug('Berechne Gewichte von {}.'.format(instance))
+    berechne_gewichte_von_praxis.delay(instance.id)
+
+
+@receiver(post_save, sender=Student)
+def aktualisiere_gewichte_nach_studentenspeicherung(sender, instance, **kwargs):
+    logger.debug('Berechne Gewichte von {}.'.format(instance))
+    berechne_gewichte_von_student.delay(instance.id)
 
 
 @receiver(post_save, sender=Platz)

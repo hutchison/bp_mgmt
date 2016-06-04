@@ -41,6 +41,34 @@ def berechne_gewichte(verwaltungszeitraum_id):
 
 
 @shared_task
+def berechne_gewichte_von_praxis(praxis_id):
+    """
+    Berechnet die Gewichte einer Praxis und allen Studenten.
+    """
+    praxis = Praxis.objects.get(id=praxis_id)
+    studenten = Student.objects.all()
+
+    Gewicht.objects.filter(praxis=praxis).delete()
+
+    gs = (Gewicht.berechne(s, praxis) for s in studenten)
+    Gewicht.objects.bulk_create(gs)
+
+
+@shared_task
+def berechne_gewichte_von_student(student_id):
+    """
+    Berechnet die Gewichte eines Studenten und allen Praxen.
+    """
+    student = Student.objects.get(id=student_id)
+    praxen = Praxis.objects.all()
+
+    Gewicht.objects.filter(student=student).delete()
+
+    gs = (Gewicht.berechne(student, p) for p in praxen)
+    Gewicht.objects.bulk_create(gs)
+
+
+@shared_task
 def verteile_studenten_task(anzahl=120, blocklimit=30, bloecke=None, loeschen=False):
     if cache.add(VERTEILE_PLAETZE_LOCK_ID, True, LOCK_EXPIRE):
         try:
