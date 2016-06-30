@@ -26,6 +26,7 @@ class Platzuebersicht(View):
         zeitraeume = Zeitraum.objects.filter(
             block__in=bloecke
         ).order_by(
+            'block__name',
             'anfang'
         )
 
