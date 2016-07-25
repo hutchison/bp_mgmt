@@ -23,8 +23,14 @@ class Index(View):
     def get(self, request):
         student = Student.objects.get(user=request.user)
 
+        if student.hat_platz():
+            platz = student.platz
+        else:
+            platz = None
+
         context = {
             'student': student,
+            'platz': platz,
         }
 
         return render(request, self.template_name, context)

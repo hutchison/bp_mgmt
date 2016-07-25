@@ -25,6 +25,10 @@
           <th>E-Mail-Adresse</th>
           <td>{{ student.email }}</td>
         </tr>
+        <tr>
+           <th>Verwaltungszeitraum</th>
+           <td>{{ student.verwaltungszeitraum }}</td>
+        </tr>
         {% if student.telefonnummer %}
         <tr>
           <th>Telefonnummer</th>
@@ -47,6 +51,32 @@
         <a href="mailto:">melden Sie sich</a>
         bitte bei uns.
       </p>
+      <h3>Ihr Platz</h3>
+      {% if platz %}
+      <table class="table table-condensed">
+        <tr>
+          <th>Praxis</th>
+          <td>
+            <p>
+              {{ platz.praxis.anrede }} {{ platz.praxis.vorname }} {{ platz.praxis.name }}<br />
+              {{ platz.praxis.adresse }}<br />
+              {{ platz.praxis.plz }} {{ platz.praxis.ort }}<br />
+              <i class="fa fa-phone"></i> {{ platz.praxis.telefon }}
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <th>Zeitraum</th>
+          <td>
+            {{ platz.zeitraum.anfang|date:"d. F Y" }} bis {{ platz.zeitraum.ende|date:"d. F Y" }}
+          </td>
+        </tr>
+      </table>
+      {% else %}
+      <p>
+        Ihnen wurde noch kein Platz zugeteilt.
+      </p>
+      {% endif %}
       {% if messages %}
       {% for message in messages %}
       <div class="alert{% if message.tags %} alert-{{ message.tags }}{% endif %}">
