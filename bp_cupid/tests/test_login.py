@@ -4,12 +4,13 @@ from django.contrib.auth.models import User
 
 class TestLogin(StaticLiveServerTestCase):
     def setUp(self):
-        self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(3)
         self.username = 'alice'
         self.email = 'alice@example.org'
         self.password = 'test'
         User.objects.create_user(self.username, self.email, self.password)
+
+        self.browser = webdriver.Firefox()
+        #self.browser.implicitly_wait(3)
 
     def tearDown(self):
         self.browser.quit()
@@ -43,5 +44,5 @@ class TestLogin(StaticLiveServerTestCase):
         alert = self.browser.find_element_by_class_name('alert-danger')
         self.assertEqual(
             alert.text,
-            'Benutzerdaten oder Passwort nicht gefunden.'
+            'Bitte einen gültigen Benutzername und ein Passwort eingeben. Beide Felder berücksichtigen die Groß-/Kleinschreibung.'
         )

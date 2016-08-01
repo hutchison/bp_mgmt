@@ -11,4 +11,4 @@ class TestStartseite(StaticLiveServerTestCase):
     def test_check_title(self):
         self.browser.get(self.live_server_url)
 
-        self.assertIn('BP Cupid', self.browser.title)
+        self.assertIn('BP Setup', self.browser.title)
