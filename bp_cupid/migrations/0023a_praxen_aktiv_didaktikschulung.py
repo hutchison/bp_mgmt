@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bp_cupid', '0040_remove_pj_platz'),
+        ('bp_cupid', '0023_praxis_freie_und_belegte_zeitraeume'),
     ]
 
     operations = [

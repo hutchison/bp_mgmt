@@ -18,7 +18,7 @@ def entferne_freie_und_belegte_zeitraeume(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('bp_cupid', '0023_praxis_freie_und_belegte_zeitraeume'),
+        ('bp_cupid', '0023a_praxen_aktiv_didaktikschulung'),
     ]
 
     operations = [
