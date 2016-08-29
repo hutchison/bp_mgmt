@@ -61,7 +61,7 @@ table * {
           data-trigger="hover"
           data-placement="top"
           target="_blank">
-          {% if b.manuell %}<mark>{{ b.student.mat_nr}}</mark>{% else %}{{ b.student.mat_nr}}{% endif %}
+          {{ b.student.vorname|make_list|first }}. {{ b.student.name }}
         </a>
       </td>
       {% elif b.anfang %}
