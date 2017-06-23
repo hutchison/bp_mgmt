@@ -52,7 +52,7 @@ table * {
       <td>{{ praxis.name }}</td>
       {% for b in belegungen %}
       {% if b.student %}
-      <td>
+      <td{% if b.manuell %} class="success"{% endif %}>
         <a href="{% url 'admin:bp_cupid_platz_change' b.student.id %}"
           class="popoverData"
           title="{{ b.student.vorname }} {{ b.student.name }}"
