@@ -47,8 +47,6 @@ INSTALLED_APPS = (
     'django.contrib.flatpages',
     'bp_cupid',
     'bp_setup',
-    'django_extensions',
-    'debug_toolbar',
     'kombu.transport.django',
     'djcelery',
     'actstream',
