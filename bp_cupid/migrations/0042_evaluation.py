@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('bp_cupid', '0040_remove_pj_platz'),
+        ('bp_cupid', '0038_zusatzinfopraxis'),
     ]
 
     operations = [
